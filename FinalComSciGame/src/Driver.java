@@ -100,7 +100,7 @@ public class Driver extends JPanel
 		f.addMouseWheelListener(this);
 		f.addMouseListener(this);
 		f.add(this);
-		t = new Timer(17, this);
+		t = new Timer(15, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);

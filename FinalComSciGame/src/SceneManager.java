@@ -5,6 +5,7 @@ public class SceneManager {
 	static ArrayList<Scene> scenes = new ArrayList<Scene>();
 	static SCENE_0_MainMenu scene_mainMenu = new SCENE_0_MainMenu(); //menu scene
 	static SCENE_1_LevelSelect scene_levelSelect = new SCENE_1_LevelSelect(); //level select scene
+	static SCENE_2_Track1 scene_track1 = new SCENE_2_Track1(); //level select scene
 	
 	
 	public static void update() {
@@ -42,6 +43,7 @@ public class SceneManager {
 	public static void initManager() {
 		scenes.add(scene_mainMenu);
 		scenes.add(scene_levelSelect);
+		scenes.add(scene_track1);
 		
 	}
 
