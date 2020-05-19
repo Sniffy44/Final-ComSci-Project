@@ -13,14 +13,21 @@ public class SCENE_0_MainMenu extends Scene {
 	Font fntSmallc = new Font("Press Start", 0, 40);
 	
 	BufferedImage MainMenuBackGround;
+	BufferedImage StartButtonGraphic_dark;
+	BufferedImage StartButtonGraphic_bright;
 	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g.drawImage(MainMenuBackGround, 0, 0, Driver.screenWidth, Driver.screenHeight, null);
+		g.drawImage(StartButtonGraphic_dark, -30, 0, Driver.screenWidth, Driver.screenHeight, null);
 		
-		buttonStart.draw(g, 110, 38);
+		if(buttonStart.glowing == true) {
+			g.drawImage(StartButtonGraphic_bright, -30, 0, Driver.screenWidth, Driver.screenHeight, null);
+		}
+		
+		//buttonStart.draw(g, 110, 38);
 	}
 
 	public void update() {
@@ -39,9 +46,11 @@ public class SCENE_0_MainMenu extends Scene {
 
 	public void init() {
 		
-		MainMenuBackGround = Misc.loadImage("/Defentricity_MainMenuImage.png");
+		MainMenuBackGround = Misc.loadImage("/MainMenuBG_FINAL.png");
+		StartButtonGraphic_dark = Misc.loadImage("/StartButton_miniLines_wText.png");
+		StartButtonGraphic_bright = Misc.loadImage("/StartButton_miniLines_wText_bright.png");
 		
-		buttonStart = new Button(new Rect(780, 600, 300, 50), null, Color.black, "Play", Color.WHITE, fntSmallc, true, Color.gray, false);
+		buttonStart = new Button(new Rect(830, 535, 200, 85), null, Color.black, "Play", Color.WHITE, fntSmallc, true, Color.gray, false);
 	}
 
 }

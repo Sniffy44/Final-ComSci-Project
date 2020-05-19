@@ -16,6 +16,7 @@ public class SCENE_1_LevelSelect extends Scene {
 	
 	BufferedImage MainMenuBackGround;
 	
+	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -46,7 +47,8 @@ public class SCENE_1_LevelSelect extends Scene {
 
 	public void init() {
 		
-		MainMenuBackGround = Misc.loadImage("/Defentricity_MainMenuImage.png");
+		MainMenuBackGround = Misc.loadImage("/MainMenuBG_FINAL.png");
+		
 		
 		buttonBack = new Button(new Rect(80, 80, 300, 50), null, Color.black, "Back", Color.WHITE, fntSmallc, true, Color.gray, false);
 		
