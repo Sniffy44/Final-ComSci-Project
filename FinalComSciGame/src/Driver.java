@@ -1,4 +1,3 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,21 +11,14 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.image.BufferedImage;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Driver extends JPanel
 		implements ActionListener, KeyListener, MouseMotionListener, MouseWheelListener, MouseListener {
-	 
 
 	ArrayList<Double> fps = new ArrayList<Double>();
 
@@ -49,7 +41,7 @@ public class Driver extends JPanel
 	static int scene = 0;
 
 	static int frames = 0;
-	
+
 	double frameStart = 0;
 
 	static Point mPos = new Point(0, 0);
@@ -60,9 +52,8 @@ public class Driver extends JPanel
 	public void paint(Graphics g) { // PAINT ||||||||
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		
-		SceneManager.draw(g);
 
+		SceneManager.draw(g);
 
 	} // END OF PAINT
 		// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -70,14 +61,29 @@ public class Driver extends JPanel
 	public void update() { // UPDATE |||||||||||||||||||||||||||||||||||||||||||||||||||||||
 		mPos = getMousePos();
 		SceneManager.update();
-		
-		
+
 
 	}// END OF UPDATE |||||||||||||||||||||||||||||||
 
 	public void actionPerformed(ActionEvent arg0) {
-		update();
+		try {
+			InputManager.mPos = getMousePos();
+
+			update();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		repaint();
+		InputManager.update();
+
+	}
+
+	public Point getMousePos() {
+		try {
+			return new Point(this.getMousePosition().x, this.getMousePosition().y);
+		} catch (Exception e) {
+			return InputManager.mPos;
+		}
 	}
 
 	public Driver() {
@@ -102,15 +108,15 @@ public class Driver extends JPanel
 
 	private void init() { // TODO
 		SceneManager.initManager();
-		SceneManager.ms.init();
-		SceneManager.ms.setActive(true);
-		//SceneManager.gs.init();
-		
+		SceneManager.scene_mainMenu.init();
+		SceneManager.scene_mainMenu.setActive(true);
+		// SceneManager.gs.init();
+
 	}
 
 	Timer t;
 
-	public static void main(String[] args) throws MalformedURLException {
+	public static void main(String[] args) {
 		Driver d = new Driver();
 		// URL url = new URL("/ObamaPrismRotating.gif");
 		// Icon icon = new ImageIcon(url);
@@ -128,13 +134,6 @@ public class Driver extends JPanel
 		return mPos;
 	}
 
-	public Point getMousePos() {
-		try {
-			return new Point(this.getMousePosition().x, this.getMousePosition().y);
-		} catch (Exception e) {
-			return mPos;
-		}
-	}
 
 	public int rBt(int min, int max) {
 		return ((int) (Math.random() * (max - min + 1) + min));
@@ -164,19 +163,19 @@ public class Driver extends JPanel
 //		if (scene == 0 && e.getKeyCode() == 83) // [s] start
 //			mapStarter();
 
-		
+	}
+
+	public void mousePressed(MouseEvent e) {
+		InputManager.mouse[e.getButton()] = true;
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mouse[e.getButton()] = false;
-		mouseReleased[e.getButton()] = true;
+		InputManager.mouse[e.getButton()] = false;
+		InputManager.mouseReleased[e.getButton()] = true;
+		InputManager.resetMouseReleased = true;
 
-		for (int i = 0; i < mouseReleased.length; i++) {
-			mouseReleased[i] = false;
-		}
-		
 	}
 
 	@Override
@@ -204,13 +203,7 @@ public class Driver extends JPanel
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

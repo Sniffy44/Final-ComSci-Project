@@ -3,7 +3,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class MenuScene extends Scene {
+public class SCENE_0_MainMenu extends Scene {
 	
 	Button buttonStart;
 	
@@ -18,11 +18,14 @@ public class MenuScene extends Scene {
 	}
 
 	public void update() {
-		buttonStart.update(Driver.mouse, Driver.mPos, Driver.mouseReleased);
+		buttonStart.update();
 		
 		if (buttonStart.clicked) {
 			
-			SceneManager.ms.setActive(false);
+			SceneManager.scene_levelSelect.init();
+			
+			SceneManager.scene_mainMenu.setActive(false);
+			SceneManager.scene_levelSelect.setActive(true);
 			
 		}
 		
@@ -30,7 +33,7 @@ public class MenuScene extends Scene {
 
 	public void init() {
 		
-		buttonStart = new Button(new Rect(780, 400, 300, 50), null, 0, "Start", fntSmall, Color.GRAY, true, 0);
+		buttonStart = new Button(new Rect(780, 400, 300, 50), null, Color.GRAY, "Play", Color.WHITE, fntSmall, true, Color.WHITE, false);
 	}
 
 }

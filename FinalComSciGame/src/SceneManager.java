@@ -3,7 +3,8 @@ import java.util.ArrayList;
 
 public class SceneManager {
 	static ArrayList<Scene> scenes = new ArrayList<Scene>();
-	static MenuScene ms = new MenuScene(); //menu scene
+	static SCENE_0_MainMenu scene_mainMenu = new SCENE_0_MainMenu(); //menu scene
+	static SCENE_1_LevelSelect scene_levelSelect = new SCENE_1_LevelSelect(); //level select scene
 	
 	
 	public static void update() {
@@ -39,7 +40,8 @@ public class SceneManager {
 	
 	
 	public static void initManager() {
-		scenes.add(ms);
+		scenes.add(scene_mainMenu);
+		scenes.add(scene_levelSelect);
 		
 	}
 
