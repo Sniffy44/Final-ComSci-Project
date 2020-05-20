@@ -43,6 +43,8 @@ public class Driver extends JPanel
 	static int frames = 0;
 
 	double frameStart = 0;
+	
+	public static int track = 0;
 
 	static Point mPos = new Point(0, 0);
 

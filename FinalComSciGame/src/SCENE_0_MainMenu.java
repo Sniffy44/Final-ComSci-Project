@@ -27,7 +27,7 @@ public class SCENE_0_MainMenu extends Scene {
 			g.drawImage(StartButtonGraphic_bright, -30, 0, Driver.screenWidth, Driver.screenHeight, null);
 		}
 		
-		//buttonStart.draw(g, 110, 38);
+		
 	}
 
 	public void update() {
