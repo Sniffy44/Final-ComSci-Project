@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -103,6 +104,18 @@ public class SCENE_2_Track1 extends Scene {
 
 		buttonLevelStart = new Button(new Rect(1700, 800, 200, 100), null, Color.black, "Start Level", Color.WHITE,
 				fntSmall, true, Color.gray, false);
+
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == 32 && squaros.size() == 0) { // [sb] start level
+			System.out.println("penisSSS");
+			level ++;
+			//levelIsActive = true;
+			
+			if(level == 1) lvlManager.levelOneT1(squaros);
+			if(level == 2) lvlManager.levelTwoT1(squaros);
+		}
 
 	}
 
