@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +11,8 @@ public class Enemies {
 	int width, height;
 	int speed;
 	int health;
+	boolean hasSpawned;
+	int levell, time;
 	BufferedImage texture;
 	int identity;
 
@@ -18,8 +21,8 @@ public class Enemies {
 
 	// ArrayList<Enemies> squaros = new ArrayList<Enemies>();
 
-	public Enemies(double x, double y, double vx, double vy, int width, int height, int speed, int health, BufferedImage texture,
-			int identity) {
+	public Enemies(double x, double y, double vx, double vy, int width, int height, int speed, int health,
+			boolean hasSpawned, int levell, int time, BufferedImage texture, int identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -29,6 +32,11 @@ public class Enemies {
 		this.height = height;
 		this.speed = speed;
 		this.health = health;
+		
+		this.hasSpawned = hasSpawned;
+		this.levell = levell;
+		this.time = time;
+		
 		this.texture = texture;
 		this.identity = identity;
 
@@ -39,13 +47,21 @@ public class Enemies {
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
-		g.setColor(Color.green);
-		g.fillRect((int) x - width / 2, (int) y - height / 2, width, height);
-//		g.setColor(Color.black);
-//		g.fillOval((int) x - 2, (int) y - 2, 5, 5);
+		if (identity == 1) {
+			g.setColor(Color.green);
+			g.fillRect((int) x - width / 2, (int) y - height / 2, width, height);
+		}
+		
+		if(identity == 2) {
+			g.setColor(Color.red);
+			g2.setStroke(new BasicStroke(8));
+			g.drawOval((int)x - width / 2, (int)y - height / 2, width, height);
+			g2.setStroke(new BasicStroke(1));
+		}
+
 
 		g.setColor(Color.white);
-		hitbox.draw(g2);
+		//hitbox.draw(g2);
 
 		g.setColor(Color.blue);
 		pathHitbox.draw(g2);
@@ -77,7 +93,7 @@ public class Enemies {
 			for (int i = 0; i < Path.segments.size(); i++) {
 				for (int j = 0; j < squaros.size(); j++) {
 					if (squaros.get(j).pathHitbox.intersects(Path.segments.get(i).hitbox)) {
-					
+
 						if (Path.segments.get(i).identity == 1) {
 							squaros.get(j).y = Path.segments.get(i).y + 5;
 							squaros.get(j).vx = squaros.get(j).speed;
@@ -89,16 +105,16 @@ public class Enemies {
 							squaros.get(j).vx = 0;
 							squaros.get(j).vy = squaros.get(j).speed;
 						}
-						
+
 						if (Path.segments.get(i).identity == 3) {
 							squaros.get(j).y = Path.segments.get(i).y + 5;
 							squaros.get(j).vx = -squaros.get(j).speed;
 							squaros.get(j).vy = 0;
 						}
-						
+
 						if (Path.segments.get(i).identity == 0) {
 							squaros.remove(j);
-							SCENE_2_Track1.lives --;
+							SCENE_2_Track1.lives--;
 							break;
 						}
 					}
