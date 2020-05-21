@@ -1,0 +1,91 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+public class Projectile {
+
+	double x, y;
+	int width, height;
+	double vx, vy;
+	int damage;
+	int collisions;
+	BufferedImage texture;
+	int identity;
+
+	Rect hitbox1;
+
+	public Projectile(double x, double y, int width, int height, double vx, double vy, int damage, int collisions,
+			BufferedImage texture, int identity) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.vx = vx;
+		this.vy = vy;
+		this.damage = damage;
+		this.collisions = collisions;
+		this.texture = texture;
+		this.identity = identity;
+
+		this.hitbox1 = new Rect(x, y, width, height);
+	}
+
+	public void draw(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		if (identity == 1) { // blue balls from basicTurrent
+			g.setColor(Color.CYAN);
+			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
+			// hitbox1.draw(g2);
+		}
+
+	}
+
+	public void update(ArrayList<Enemies> squaros, ArrayList<Turret> turrets, ArrayList<Projectile> projectiles) {
+		x += vx;
+		y += vy;
+
+		hitbox1.pos.x = x - width / 2;
+		hitbox1.pos.y = y - height / 2;
+		hitbox1.w = width;
+		hitbox1.h = height;
+
+		for (int i = 0; i < squaros.size(); i++) {
+			for (int j = 0; j < projectiles.size(); j++) {
+				if (projectiles.get(j).hitbox1.intersects(squaros.get(i).hitbox)) {
+					squaros.get(i).health -= projectiles.get(j).damage;
+					projectiles.get(j).collisions --;
+					if(projectiles.get(j).collisions <= 0) {
+						projectiles.remove(j);
+						break;
+					}
+				}
+			}
+		}
+
+		for (Projectile i : projectiles) {
+			if (i.x < -50) {
+				projectiles.remove(i);
+				break;
+			}
+			if (i.x > 1970) {
+				projectiles.remove(i);
+				break;
+			}
+			if (i.y < -50) {
+				projectiles.remove(i);
+				break;
+			}
+			if (i.y > 1130) {
+				projectiles.remove(i);
+				break;
+			}
+		}
+
+	}
+}

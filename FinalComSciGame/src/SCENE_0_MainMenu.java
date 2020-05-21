@@ -48,7 +48,7 @@ public class SCENE_0_MainMenu extends Scene {
 		
 		MainMenuBackGround = Misc.loadImage("/MainMenuBG_FINAL.png");
 		StartButtonGraphic_dark = Misc.loadImage("/StartButton_miniLines_wText.png");
-		StartButtonGraphic_bright = Misc.loadImage("/StartButton_miniLines_wText_bright.png");
+		StartButtonGraphic_bright = Misc.loadImage("/StartButton_miniLines_wText_bright2.png");
 		
 		buttonStart = new Button(new Rect(830, 535, 200, 85), null, Color.black, "Play", Color.WHITE, fntSmallc, true, Color.gray, false);
 	}

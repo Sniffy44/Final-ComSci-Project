@@ -14,16 +14,20 @@ public class SCENE_1_LevelSelect extends Scene {
 	Font fntSmall = new Font("Impact", 0, 35);
 	Font fntSmallc = new Font("Press Start", 0, 35);
 	
-	BufferedImage MainMenuBackGround;
+	BufferedImage LevelSelectBackGround;
+	BufferedImage BackButtonGraphic_bright;
 	
 	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		g.drawImage(MainMenuBackGround, 0, 0, Driver.screenWidth, Driver.screenHeight, null);
+		g.drawImage(LevelSelectBackGround, 0, 0, Driver.screenWidth, Driver.screenHeight, null);
 		
-		buttonBack.draw(g, 110, 38);
+		if(buttonBack.glowing) g.drawImage(BackButtonGraphic_bright, 0, 0, Driver.screenWidth, Driver.screenHeight, null);
+			
+		
+		//buttonBack.draw(g, 110, 38);
 		buttonTrack1.draw(g, 104, 38);
 	}
 
@@ -31,7 +35,9 @@ public class SCENE_1_LevelSelect extends Scene {
 		buttonBack.update();
 		buttonTrack1.update();
 		
-		if(buttonBack.clicked) {			
+		if(buttonBack.clicked) {
+			SceneManager.scene_mainMenu.init();
+			
 			SceneManager.scene_levelSelect.setActive(false);
 			SceneManager.scene_mainMenu.setActive(true);
 		}
@@ -47,12 +53,13 @@ public class SCENE_1_LevelSelect extends Scene {
 
 	public void init() {
 		
-		MainMenuBackGround = Misc.loadImage("/MainMenuBG_FINAL.png");
+		LevelSelectBackGround = Misc.loadImage("/LevelSelectBG.png");
+		BackButtonGraphic_bright = Misc.loadImage("/BackButton_Bright.png");
 		
 		
-		buttonBack = new Button(new Rect(80, 80, 300, 50), null, Color.black, "Back", Color.WHITE, fntSmallc, true, Color.gray, false);
+		buttonBack = new Button(new Rect(113, 125, 200, 85), null, Color.black, "Back", Color.WHITE, fntSmallc, true, Color.gray, false);
 		
-		buttonTrack1 = new Button(new Rect(200, 400, 300, 250), Misc.loadImage("/track1_example.png"), Color.black, "Track 1", Color.BLACK, fntSmallc, true, Color.gray, false);
+		buttonTrack1 = new Button(new Rect(300, 400, 300, 250), Misc.loadImage("/track1_example.png"), Color.black, "Track 1", Color.white, fntSmallc, true, Color.gray, false);
 	}
 
 }

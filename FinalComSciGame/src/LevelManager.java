@@ -31,10 +31,10 @@ public class LevelManager {
 	public void levelOneT1(ArrayList<Enemies> squaros) {
 		levelStartTime = (int) System.currentTimeMillis();
 
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 1, 10, null, 1));
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 1, 30, null, 1));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 1, 10, 10, null, 1));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 1, 30, 10, null, 1));
 
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 1, 80, null, 2));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 1, 80, 10, null, 2));
 		
 		
 	}
@@ -42,12 +42,12 @@ public class LevelManager {
 	public void levelTwoT1(ArrayList<Enemies> squaros) {
 		levelStartTime = (int) System.currentTimeMillis();
 
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 2, 10, null, 1));
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 2, 30, null, 1));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 2, 10, 10, null, 1));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, false, 2, 30, 10, null, 1));
 
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 2, 80, null, 2));
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 2, 90, null, 2));
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 2, 100, null, 2));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 2, 80, 10, null, 2));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 2, 90, 10, null, 2));
+		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, false, 2, 100, 10, null, 2));
 		
 		
 	}

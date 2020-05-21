@@ -158,13 +158,13 @@ public class Driver extends JPanel
 	}
 
 	public void keyPressed(KeyEvent e) {
-
+		InputManager.keys[e.getKeyCode()] = true;
 	}
 
 	public void keyReleased(KeyEvent e) {
 //		if (scene == 0 && e.getKeyCode() == 83) // [s] start
 //			mapStarter();
-
+		InputManager.setKeyReleased(e.getKeyCode());
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -207,5 +207,11 @@ public class Driver extends JPanel
 		// TODO Auto-generated method stub
 
 	}
+	
 
+}
+
+class Money{
+	
+	public int money;
 }

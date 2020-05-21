@@ -14,8 +14,11 @@ public class Enemies {
 	int health;
 	boolean hasSpawned;
 	int levell, time;
+	int prize;
 	BufferedImage texture;
 	int identity;
+	
+	int fullHealth = health;
 
 	Rect hitbox;
 	Rect pathHitbox;
@@ -23,7 +26,7 @@ public class Enemies {
 	// ArrayList<Enemies> squaros = new ArrayList<Enemies>();
 
 	public Enemies(double x, double y, double vx, double vy, int width, int height, int speed, int health,
-			boolean hasSpawned, int levell, int time, BufferedImage texture, int identity) {
+			boolean hasSpawned, int levell, int time, int prize, BufferedImage texture, int identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -37,6 +40,7 @@ public class Enemies {
 		this.hasSpawned = hasSpawned;
 		this.levell = levell;
 		this.time = time;
+		this.prize = prize;
 		
 		this.texture = texture;
 		this.identity = identity;
@@ -60,6 +64,11 @@ public class Enemies {
 			g.drawOval((int)x - width / 2, (int)y - height / 2, width, height);
 			g2.setStroke(new BasicStroke(1));
 		}
+		
+		g.setColor(Color.green);
+		g.fillRect((int)x - 30, (int)y - height/2 - 20, 60, 10);
+		g.setColor(Color.red);
+		g.fillRect((int)x + 30 - (health/fullHealth)*60, (int)y - height/2 - 20, - 60 + (health/fullHealth)*60, 10);
 
 
 		g.setColor(Color.white);
@@ -70,7 +79,7 @@ public class Enemies {
 
 	}
 
-	public void update(ArrayList<Enemies> squaros) {
+	public void update(ArrayList<Enemies> squaros, Money money) {
 		x += vx;
 		y += vy;
 
@@ -86,11 +95,12 @@ public class Enemies {
 
 		for (Enemies i : squaros) { // fancy for loop for doing for stuff
 			if (i.health <= 0) {
+				money.money += i.prize;
 				squaros.remove(i);
 				break;
 			}
 		}
-
+	
 		if (Driver.track == 1) { // TRACK ONE INFO COLLISIONS YAY
 			for (int i = 0; i < Path.segments.size(); i++) {
 				for (int j = 0; j < squaros.size(); j++) {

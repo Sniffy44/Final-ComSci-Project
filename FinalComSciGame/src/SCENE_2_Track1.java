@@ -20,10 +20,16 @@ public class SCENE_2_Track1 extends Scene {
 	double frameStart = 0;
 
 	ArrayList<Enemies> squaros = new ArrayList<Enemies>();
+	
+	ArrayList<Turret> turrets = new ArrayList<Turret>();
+	
+	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
 	BufferedImage track1Image;
 
 	public static int lives = 10;
+	
+	Money money = new Money();
 
 	int level = 0;
 	public static boolean levelIsActive = false;
@@ -39,9 +45,16 @@ public class SCENE_2_Track1 extends Scene {
 		g.drawString("" + lives, 137, 729);
 		
 		g.drawString("Level  " + level, 30, 50);
+		g.drawString("$" + money.money, 30, 85);
 
 		for (int i = 0; i < squaros.size(); i++) { // draws coins items with arrayList
 			squaros.get(i).draw(g2);
+		}
+		for(Turret t : turrets) {
+			t.draw(g2);
+		}
+		for(Projectile p : projectiles) {
+			p.draw(g2);
 		}
 
 		buttonLevelStart.draw(g, 28, 60);
@@ -82,9 +95,25 @@ public class SCENE_2_Track1 extends Scene {
 		}
 
 		for (int i = 0; i < squaros.size(); i++) {
-			squaros.get(i).update(squaros);
+			squaros.get(i).update(squaros, money);
 		}
 		
+		
+		for(Turret t : turrets) {
+			t.update(squaros, projectiles);
+		}
+		for(int i = 0; i < projectiles.size(); i++) {
+			projectiles.get(i).update(squaros, turrets, projectiles);
+		}
+		
+		
+		
+		if(InputManager.keysReleased[32] && squaros.size() == 0) {
+			level ++;
+			
+			if(level == 1) lvlManager.levelOneT1(squaros);
+			if(level == 2) lvlManager.levelTwoT1(squaros);
+		}
 		//if(level == 1) System.out.println(levelTime);
 		
 	} // ||||||||||||||||||||||||||||||||||||||||||||||| END OF UPDATE
@@ -94,7 +123,8 @@ public class SCENE_2_Track1 extends Scene {
 		Driver.track = 1;
 		lvlManager = new LevelManager();
 
-		
+		turrets.add(new BasicTurret(1200, 450, 0, 0));
+		turrets.add(new BasicTurret(600, 300, 0, 0));
 
 		Path.segments.add(new Path(150, 730, 10, 10, 0)); // ending box
 
@@ -107,16 +137,8 @@ public class SCENE_2_Track1 extends Scene {
 
 	}
 	
-	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == 32 && squaros.size() == 0) { // [sb] start level
-			System.out.println("penisSSS");
-			level ++;
-			//levelIsActive = true;
-			
-			if(level == 1) lvlManager.levelOneT1(squaros);
-			if(level == 2) lvlManager.levelTwoT1(squaros);
-		}
+	
+	
 
-	}
 
 }
