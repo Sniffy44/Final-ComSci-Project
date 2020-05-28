@@ -17,7 +17,10 @@ public class Rect {
 				|| new Point(pos.x, pos.y + h).inside(r) || r.pos.inside(this)
 				|| new Point(r.pos.x + r.w, r.pos.y).inside(this)
 				|| new Point(r.pos.x + r.w, r.pos.y + r.h).inside(this)
-				|| new Point(r.pos.x, r.pos.y + r.h).inside(this));
+				|| new Point(r.pos.x, r.pos.y + r.h).inside(this))
+				/* balls */ || (pos.y < r.pos.y && pos.y + h > r.pos.y + r.h && pos.x < r.pos.x + r.w
+						&& pos.x > r.pos.x)
+				|| (pos.x < r.pos.x && pos.x + w > r.pos.x && pos.y > r.pos.y && pos.y < r.pos.y + r.h);
 	}
 
 	public int classifyCol(Rect r) {
@@ -29,7 +32,7 @@ public class Rect {
 		double bottom = Math.abs(pos.y + h - (r.pos.y));
 		double top = Math.abs(pos.y - (r.pos.y + r.h));
 		// 3 = top, 1 = bottom
-		if (top < right && top < left && top < bottom) {		
+		if (top < right && top < left && top < bottom) {
 			return 1;
 		}
 		if (right < left && right < bottom && right < top) {

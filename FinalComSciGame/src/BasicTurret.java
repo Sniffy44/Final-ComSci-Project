@@ -12,12 +12,12 @@ public class BasicTurret extends Turret{
 	
 	static int width = 70;
 	static int height = 70;
-	static int price = 50;
+	static int price = 10;
 	static int range = 150;
 	static int damage = 1;
 	
 	public BasicTurret(int x, int y, double rotation, int identity) {
-		super(x, y, width, height, price, rotation, range, damage, Misc.loadImage("/BasicTurretGraphic.png"), identity);
+		super(x, y, width, height, price, rotation, range, damage, firerate, Misc.loadImage("/BasicTurretGraphic.png"), identity);
 		
 		
 	}

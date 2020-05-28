@@ -115,13 +115,13 @@ public class Driver extends JPanel
 		SceneManager.scene_mainMenu.setActive(true);
 		// SceneManager.gs.init();
 		
-		String fonts[] = 
-			      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-
-			    for ( int i = 0; i < fonts.length; i++ )
-			    {
-			      System.out.println(fonts[i]);
-			    }
+//		String fonts[] = 
+//			      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+//
+//			    for ( int i = 0; i < fonts.length; i++ )
+//			    {
+//			      System.out.println(fonts[i]);
+//			    }
 	}
 
 	Timer t;

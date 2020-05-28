@@ -12,13 +12,16 @@ public abstract class Turret {
 	double rotation;
 	int range;
 	int damage;
+	int firerate;
 	BufferedImage texture;
 	int identity;
+	
+	Rect hitbox;
 
 	Color dimBlue = new Color(100, 100, 100, 50);
 
 	public Turret(int x, int y, int width, int height, int price, double rotation, int range, int damage,
-			BufferedImage texture, int identity) {
+			int firerate, BufferedImage texture, int identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -28,8 +31,10 @@ public abstract class Turret {
 		this.rotation = rotation;
 		this.range = range;
 		this.damage = damage;
+		this.firerate = firerate;
 		this.texture = texture;
 		this.identity = identity;
+		this.hitbox = new Rect(x - width/2, y - height/2, width, height);
 	}
 
 	public void draw(Graphics g) {
@@ -40,10 +45,10 @@ public abstract class Turret {
 			
 			g2.rotate(rotation, x, y);
 			
-			g.setColor(Color.white);
-			g2.drawOval(x - range, y - range, range * 2, range * 2);
-			g2.setPaint(dimBlue);
-			g2.fillOval(x - range, y - range, range * 2, range * 2);
+			//g.setColor(Color.white);
+			//g2.drawOval(x - range, y - range, range * 2, range * 2);
+			//g2.setPaint(dimBlue);
+			//g2.fillOval(x - range, y - range, range * 2, range * 2);
 			g2.drawImage(texture, x - width/2, y - height/2, width, height, null);
 			
 			g2.rotate(-rotation, x, y);

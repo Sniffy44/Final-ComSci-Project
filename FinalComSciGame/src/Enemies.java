@@ -82,7 +82,7 @@ public class Enemies {
 
 	}
 
-	public void update(ArrayList<Enemies> squaros, Money money) {
+	public void update(ArrayList<Enemies> squaros, Money money, ArrayList<Path> segments) {
 		x += vx;
 		y += vy;
 
@@ -129,69 +129,69 @@ public class Enemies {
 		}
 
 		if (Driver.track == 1) { // TRACK ONE INFO COLLISIONS YAY
-			for (int i = 0; i < Path.segments.size(); i++) {
+			for (int i = 0; i < segments.size(); i++) {
 				for (int j = 0; j < squaros.size(); j++) {
-					if (squaros.get(j).pathHitbox.intersects(Path.segments.get(i).hitbox)) {
+					if (squaros.get(j).pathHitbox.intersects(segments.get(i).hitbox)) {
 
-						if (Path.segments.get(i).identity == 1) {
-							squaros.get(j).y = Path.segments.get(i).y + 5;
+						if (segments.get(i).identity == 1) {
+							squaros.get(j).y = segments.get(i).y + 5;
 							squaros.get(j).vx = squaros.get(j).speed;
 							squaros.get(j).vy = 0;
 						}
 
-						if (Path.segments.get(i).identity == 2 || Path.segments.get(i).identity == 2.1) { // -----first
+						if (segments.get(i).identity == 2 || segments.get(i).identity == 2.1) { // -----first
 																											// diagonal
 																											// (north-east)
-							// squaros.get(j).x = Path.segments.get(i).x + 5;
+							// squaros.get(j).x = segments.get(i).x + 5;
 							squaros.get(j).vx = Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 							squaros.get(j).vy = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 						}
 
-						if (Path.segments.get(i).identity == 3 || Path.segments.get(i).identity == 4
-								|| Path.segments.get(i).identity == 12) { // RIGHT riGHt Right RIGHt rIGHt RIGHT
-							squaros.get(j).y = Path.segments.get(i).y + 5;
+						if (segments.get(i).identity == 3 || segments.get(i).identity == 4
+								|| segments.get(i).identity == 12) { // RIGHT riGHt Right RIGHt rIGHt RIGHT
+							squaros.get(j).y = segments.get(i).y + 5;
 							squaros.get(j).vx = squaros.get(j).speed;
 							squaros.get(j).vy = 0;
 						}
 
-						if (Path.segments.get(i).identity == 5 || Path.segments.get(i).identity == 13) { // vertical UP
-							squaros.get(j).x = Path.segments.get(i).x + 5;
+						if (segments.get(i).identity == 5 || segments.get(i).identity == 13) { // vertical UP
+							squaros.get(j).x = segments.get(i).x + 5;
 							squaros.get(j).vx = 0;
 							squaros.get(j).vy = -squaros.get(j).speed;
 						}
 
-						if (Path.segments.get(i).identity == 6 || Path.segments.get(i).identity == 9
-								|| Path.segments.get(i).identity == 10 || Path.segments.get(i).identity == 16
-								|| Path.segments.get(i).identity == 19) { // LEFT LEft LEFT left LEft
-							squaros.get(j).y = Path.segments.get(i).y + 5;
+						if (segments.get(i).identity == 6 || segments.get(i).identity == 9
+								|| segments.get(i).identity == 10 || segments.get(i).identity == 16
+								|| segments.get(i).identity == 19) { // LEFT LEft LEFT left LEft
+							squaros.get(j).y = segments.get(i).y + 5;
 							squaros.get(j).vx = -squaros.get(j).speed;
 							squaros.get(j).vy = 0;
 						}
-						if (Path.segments.get(i).identity == 7 || Path.segments.get(i).identity == 8
-								|| Path.segments.get(i).identity == 11 || Path.segments.get(i).identity == 18) { // vertical
+						if (segments.get(i).identity == 7 || segments.get(i).identity == 8
+								|| segments.get(i).identity == 11 || segments.get(i).identity == 18) { // vertical
 																													// DOWN
-							squaros.get(j).x = Path.segments.get(i).x + 5;
+							squaros.get(j).x = segments.get(i).x + 5;
 							squaros.get(j).vx = 0;
 							squaros.get(j).vy = squaros.get(j).speed;
 						}
-						if (Path.segments.get(i).identity == 15 || Path.segments.get(i).identity == 15.1) { // -----
+						if (segments.get(i).identity == 15 || segments.get(i).identity == 15.1) { // -----
 																											// diagonal
 																											// (north-west)
-							// squaros.get(j).y = Path.segments.get(i).y + 5;
+							// squaros.get(j).y = segments.get(i).y + 5;
 							squaros.get(j).vx = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 							squaros.get(j).vy = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 						}
 
-						if (Path.segments.get(i).identity == 17 || Path.segments.get(i).identity == 17.1) { // -----
+						if (segments.get(i).identity == 17 || segments.get(i).identity == 17.1) { // -----
 																											// diagonal
 																											// (north-west)
-							// squaros.get(j).y = Path.segments.get(i).y + 5;
+							// squaros.get(j).y = segments.get(i).y + 5;
 							squaros.get(j).vx = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 							squaros.get(j).vy = Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 						}
 
 						// FINAL
-						if (Path.segments.get(i).identity == 0) {
+						if (segments.get(i).identity == 0) {
 							squaros.remove(j);
 							SCENE_2_Track1.lives--;
 
@@ -200,9 +200,9 @@ public class Enemies {
 					}
 
 					// MAKES MAIN ENEMY HITBOX HIT LINES
-//					if (squaros.get(j).hitbox.intersects(Path.segments.get(i).hitbox) && Path.segments.get(i).identity > 100) {
+//					if (squaros.get(j).hitbox.intersects(segments.get(i).hitbox) && segments.get(i).identity > 100) {
 //						
-//						if (Path.segments.get(i).identity == 104.1) { //support diagonal (south-east)
+//						if (segments.get(i).identity == 104.1) { //support diagonal (south-east)
 //							squaros.get(j).vx = Math.sqrt((squaros.get(j).speed*squaros.get(j).speed)/2);
 //							squaros.get(j).vy = Math.sqrt((squaros.get(j).speed*squaros.get(j).speed)/2);
 //						}

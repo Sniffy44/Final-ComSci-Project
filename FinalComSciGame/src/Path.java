@@ -14,7 +14,7 @@ public class Path {
 	
 	Font fint = new Font("Inconsolata", 0, 12);
 	
-	public static ArrayList<Path> segments = new ArrayList<Path>();
+	
 	
 	
 	public Path(int x, int y, int width, int height, boolean isDiagonal, double identity) {
