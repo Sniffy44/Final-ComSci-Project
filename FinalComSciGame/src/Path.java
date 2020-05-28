@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -6,19 +7,23 @@ import java.util.ArrayList;
 public class Path {
 	
 	int x,y,width, height;
-	int identity;
+	boolean isDiagonal;
+	double identity;
 	
 	Rect hitbox;
+	
+	Font fint = new Font("Inconsolata", 0, 12);
 	
 	public static ArrayList<Path> segments = new ArrayList<Path>();
 	
 	
-	public Path(int x, int y, int width, int height, int identity) {
+	public Path(int x, int y, int width, int height, boolean isDiagonal, double identity) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.isDiagonal = isDiagonal;
 		this.identity = identity;
 		
 		this.hitbox = new Rect(x, y, width, height);
@@ -29,6 +34,8 @@ public class Path {
 		
 		g.setColor(Color.white);
 		hitbox.draw(g2);;
+		g.setFont(fint);
+		g.drawString("" + identity, x + width/2 - 5, y + height/2 -5);
 		
 	}
 	

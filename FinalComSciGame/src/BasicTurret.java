@@ -8,12 +8,12 @@ public class BasicTurret extends Turret{
 	int timeSLS;
 	
 	static int fireSpeed = 10;
-	static int firerate = 20;
+	static int firerate = 40; // INVERSE (lower number is faster)
 	
-	static int width = 100;
-	static int height = 100;
+	static int width = 70;
+	static int height = 70;
 	static int price = 50;
-	static int range = 200;
+	static int range = 150;
 	static int damage = 1;
 	
 	public BasicTurret(int x, int y, double rotation, int identity) {

@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -113,7 +114,14 @@ public class Driver extends JPanel
 		SceneManager.scene_mainMenu.init();
 		SceneManager.scene_mainMenu.setActive(true);
 		// SceneManager.gs.init();
+		
+		String fonts[] = 
+			      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
+			    for ( int i = 0; i < fonts.length; i++ )
+			    {
+			      System.out.println(fonts[i]);
+			    }
 	}
 
 	Timer t;
