@@ -31,12 +31,12 @@ public class LevelManager {
 	public void levelOneT1(ArrayList<Enemies> squaros) {
 		levelStartTime = (int) System.currentTimeMillis();
 
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, 100, false, 1, 10, 10, null, 1));
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 3, 100, 100, false, 1, 30, 10, null, 1));
+		squaros.add(new Enemies(-900, 374, 0, 0, 40, 40, 3, 100, 100, false, 1, 10, 10, null, 1));
+		squaros.add(new Enemies(-900, 374, 0, 0, 45, 45, 3, 100, 100, false, 1, 30, 10, null, 1));
 		
 
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, 100, false, 1, 80, 10, null, 2));
-		squaros.add(new Enemies(-900, 374, 0, 0, 50, 50, 6, 100, 100, false, 1, 90, 10, null, 2));
+		squaros.add(new Enemies(-900, 374, 0, 0, 40, 40, 6, 100, 100, false, 1, 80, 10, null, 2));
+		squaros.add(new Enemies(-900, 374, 0, 0, 45, 45, 6, 100, 100, false, 1, 90, 10, null, 2));
 		
 		
 	}

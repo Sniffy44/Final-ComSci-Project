@@ -11,14 +11,18 @@ public class Projectile {
 	int width, height;
 	double vx, vy;
 	int damage;
-	int collisions;
+	int collisions; 
+	int ageLimit;
 	BufferedImage texture;
 	int identity;
+	
+	int age = 0;
+	
 
 	Rect hitbox1;
 
 	public Projectile(double x, double y, int width, int height, double vx, double vy, int damage, int collisions,
-			BufferedImage texture, int identity) {
+		 int ageLimit, BufferedImage texture, int identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -27,7 +31,8 @@ public class Projectile {
 		this.vx = vx;
 		this.vy = vy;
 		this.damage = damage;
-		this.collisions = collisions;
+		this.collisions = collisions;		
+		this.ageLimit = ageLimit;
 		this.texture = texture;
 		this.identity = identity;
 
@@ -39,7 +44,12 @@ public class Projectile {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (identity == 1) { // blue balls from basicTurrent
-			g.setColor(Color.CYAN);
+			g.setColor(Color.green);
+			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
+			// hitbox1.draw(g2);
+		}
+		if (identity == 2) { // blue balls from basicTurrent
+			g.setColor(new Color(147, 112, 219));
 			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
 			// hitbox1.draw(g2);
 		}
@@ -67,25 +77,9 @@ public class Projectile {
 				}
 			}
 		}
-
-		for (Projectile i : projectiles) {
-			if (i.x < -50) {
-				projectiles.remove(i);
-				break;
-			}
-			if (i.x > 1970) {
-				projectiles.remove(i);
-				break;
-			}
-			if (i.y < -50) {
-				projectiles.remove(i);
-				break;
-			}
-			if (i.y > 1130) {
-				projectiles.remove(i);
-				break;
-			}
-		}
+		age ++;
+		if(age > ageLimit) projectiles.remove(this);
+		
 
 	}
 }

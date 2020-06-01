@@ -13,15 +13,23 @@ public abstract class Turret {
 	int range;
 	int damage;
 	int firerate;
+	double fireSpeed;
+	int upgradeLvl;
+	int netWorth;
+	boolean button1aPressed;
+	boolean button2aPressed;
+	boolean button1bPressed;
+	boolean button2bPressed;
 	BufferedImage texture;
 	int identity;
-	
+
 	Rect hitbox;
 
 	Color dimBlue = new Color(100, 100, 100, 50);
 
-	public Turret(int x, int y, int width, int height, int price, double rotation, int range, int damage,
-			int firerate, BufferedImage texture, int identity) {
+	public Turret(int x, int y, int width, int height, int price, double rotation, int range, int damage, int firerate,
+			double fireSpeed, int upgradeLvl, int netWorth, boolean button1aPressed, boolean button2aPressed,
+			boolean button1bPressed, boolean button2bPressed, BufferedImage texture, int identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -32,27 +40,31 @@ public abstract class Turret {
 		this.range = range;
 		this.damage = damage;
 		this.firerate = firerate;
+		this.fireSpeed = fireSpeed;
+		this.upgradeLvl = upgradeLvl;
+		this.netWorth = netWorth;
+		this.button1aPressed = button1aPressed;
+		this.button2aPressed = button2aPressed;
+		this.button1bPressed = button1bPressed;
+		this.button2bPressed = button2bPressed;
 		this.texture = texture;
 		this.identity = identity;
-		this.hitbox = new Rect(x - width/2, y - height/2, width, height);
+		this.hitbox = new Rect(x - width / 2, y - height / 2, width, height);
 	}
 
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		if (identity == 0) {
-			
-			g2.rotate(rotation, x, y);
-			
-			//g.setColor(Color.white);
-			//g2.drawOval(x - range, y - range, range * 2, range * 2);
-			//g2.setPaint(dimBlue);
-			//g2.fillOval(x - range, y - range, range * 2, range * 2);
-			g2.drawImage(texture, x - width/2, y - height/2, width, height, null);
-			
-			g2.rotate(-rotation, x, y);
-		}
+		g2.rotate(rotation, x, y);
+
+		// g.setColor(Color.white);
+		// g2.drawOval(x - range, y - range, range * 2, range * 2);
+		// g2.setPaint(dimBlue);
+		// g2.fillOval(x - range, y - range, range * 2, range * 2);
+		g2.drawImage(texture, x - width / 2, y - height / 2, width, height, null);
+
+		g2.rotate(-rotation, x, y);
 
 	}
 
