@@ -11,18 +11,20 @@ public class Projectile {
 	int width, height;
 	double vx, vy;
 	int damage;
-	int collisions; 
+	int collisions;
 	int ageLimit;
 	BufferedImage texture;
 	int identity;
-	
+
 	int age = 0;
-	
+	ArrayList<Enemies> hasHitList = new ArrayList<Enemies>();
 
 	Rect hitbox1;
+	Color dimPurple = new Color(75,0,130, 100);
+	
 
 	public Projectile(double x, double y, int width, int height, double vx, double vy, int damage, int collisions,
-		 int ageLimit, BufferedImage texture, int identity) {
+			int ageLimit, BufferedImage texture, int identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -31,7 +33,7 @@ public class Projectile {
 		this.vx = vx;
 		this.vy = vy;
 		this.damage = damage;
-		this.collisions = collisions;		
+		this.collisions = collisions;
 		this.ageLimit = ageLimit;
 		this.texture = texture;
 		this.identity = identity;
@@ -53,6 +55,11 @@ public class Projectile {
 			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
 			// hitbox1.draw(g2);
 		}
+		if(identity == 3) {
+			g2.setPaint(dimPurple);
+			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
+			
+		}
 
 	}
 
@@ -65,21 +72,46 @@ public class Projectile {
 		hitbox1.w = width;
 		hitbox1.h = height;
 
+//		for (int i = 0; i < squaros.size(); i++) {
+//			for (int j = 0; j < projectiles.size(); j++) {
+//				if (projectiles.get(j).hitbox1.intersects(squaros.get(i).hitbox)) {
+//
+//					if (!hasHitList.contains(squaros.get(i))) {
+//						squaros.get(i).health -= projectiles.get(j).damage;
+//						projectiles.get(j).collisions--;
+//						hasHitList.add(squaros.get(i));
+//
+//						if (projectiles.get(j).collisions <= 0) {
+//							projectiles.remove(j);
+//							break;
+//						}
+//					}
+//				}
+//			}
+//		}
 		for (int i = 0; i < squaros.size(); i++) {
-			for (int j = 0; j < projectiles.size(); j++) {
-				if (projectiles.get(j).hitbox1.intersects(squaros.get(i).hitbox)) {
-					squaros.get(i).health -= projectiles.get(j).damage;
-					projectiles.get(j).collisions --;
-					if(projectiles.get(j).collisions <= 0) {
-						projectiles.remove(j);
+			if (hitbox1.intersects(squaros.get(i).hitbox)) {
+
+				if (!hasHitList.contains(squaros.get(i))) {
+					squaros.get(i).health -= damage;
+					collisions--;
+					hasHitList.add(squaros.get(i));
+
+					if (collisions <= 0) {
+						projectiles.remove(this);
 						break;
 					}
 				}
 			}
 		}
-		age ++;
-		if(age > ageLimit) projectiles.remove(this);
-		
+		if(identity == 3) {
+			width += 20;
+			height += 20;
+		}
+
+		age++;
+		if (age > ageLimit)
+			projectiles.remove(this);
 
 	}
 }

@@ -17,17 +17,30 @@ public class Enemies {
 	int levell, time;
 	int prize;
 	BufferedImage texture;
-	int identity;
+	double identity;
 
 	Rect hitbox;
 	Rect pathHitbox;
 
 	double healthRatio;
 
+	int distanceTravelled;
+
+	int frames = 0;
+
+	BufferedImage enemy1_1 = Misc.loadImage("/Enemy1-1.png");
+	BufferedImage enemy1_2 = Misc.loadImage("/Enemy1-2.png");
+	BufferedImage enemy2 = Misc.loadImage("/Enemy2.png");
+	BufferedImage enemy3 = Misc.loadImage("/Enemy3.png");
+	BufferedImage enemy4 = Misc.loadImage("/Enemy4.png");
+	BufferedImage enemy4_1 = Misc.loadImage("/Enemy4-1.png");
+	BufferedImage enemy5 = Misc.loadImage("/Enemy5.png");
+
 	// ArrayList<Enemies> squaros = new ArrayList<Enemies>();
 
 	public Enemies(double x, double y, double vx, double vy, int width, int height, double speed, int health,
-			int fullHealth, boolean hasSpawned, int levell, int time, int prize, BufferedImage texture, int identity) {
+			int fullHealth, boolean hasSpawned, int levell, int time, int prize, BufferedImage texture,
+			double identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -43,6 +56,7 @@ public class Enemies {
 		this.levell = levell;
 		this.time = time;
 		this.prize = prize;
+		// this.hasRegen = hasRegen;
 
 		this.texture = texture;
 		this.identity = identity;
@@ -56,15 +70,41 @@ public class Enemies {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (identity == 1) {
-			g.setColor(Color.green);
-			g.fillRect((int) x - width / 2, (int) y - height / 2, width, height);
+			g2.drawImage(enemy1_1, (int) x - width / 2, (int) y - height / 2, width, height, null);
+		}
+		if (identity == 1.1) {
+			g2.drawImage(enemy1_2, (int) x - width / 2, (int) y - height / 2, width, height, null);
 		}
 
 		if (identity == 2) {
-			g.setColor(Color.red);
-			g2.setStroke(new BasicStroke(8));
-			g.drawOval((int) x - width / 2, (int) y - height / 2, width, height);
-			g2.setStroke(new BasicStroke(1));
+			g2.rotate((double) frames / 15, x, y);
+			g2.drawImage(enemy2, (int) x - width / 2, (int) y - height / 2, width, height, null);
+			g2.rotate(-(double) frames / 15, x, y);
+		}
+		if (identity == 3) {
+			g2.rotate((double) frames / 30, x, y);
+			g2.drawImage(enemy3, (int) x - width / 2, (int) y - height / 2, width, height, null);
+			g2.rotate(-(double) frames / 30, x, y);
+
+		}
+		if (identity == 3) {
+			g2.rotate((double) frames / 30, x, y);
+			g2.drawImage(enemy3, (int) x - width / 2, (int) y - height / 2, width, height, null);
+			g2.rotate(-(double) frames / 30, x, y);
+
+		}
+		if (identity == 4) {
+			g2.rotate((double) frames / 40, x, y);
+			g2.drawImage(enemy4, (int) x - width / 2, (int) y - height / 2, width, height, null);
+			g2.rotate(-(double) frames / 40, x, y);
+
+		}
+		if (identity == 4.1) {
+			g2.drawImage(enemy4_1, (int) x - width / 2, (int) y - height / 2, width, height, null);
+		}
+		if (identity == 5) {
+			g2.drawImage(enemy5, (int) x - width / 2, (int) y - height / 2, width, height, null);
+
 		}
 
 		if (health - fullHealth < 0) {
@@ -82,9 +122,11 @@ public class Enemies {
 
 	}
 
-	public void update(ArrayList<Enemies> squaros, Money money, ArrayList<Path> segments) {
+	public void update(ArrayList<Enemies> squaros, Money money, ArrayList<Path> segments, int level, int lives) {
 		x += vx;
 		y += vy;
+
+		distanceTravelled += (int) (Math.abs(vx) + Math.abs(vy));
 
 		hitbox.pos.x = x - width / 2;
 		hitbox.pos.y = y - height / 2;
@@ -98,33 +140,63 @@ public class Enemies {
 
 		healthRatio = (double) health / fullHealth;
 
-		for (Enemies i : squaros) { // fancy for loop for doing for stuff
+		if (hasSpawned && health < fullHealth) { // healing of certain enemies
+			if (identity == 3) {
+				if (frames % (6 - (int) level / 5) == 0) {
+					health++;
+				}
+			}
+			if (identity == 4) {
+				if (frames % (12 - (int) level / 5) == 0) {
+					health++;
+				}
+			}
+			if (identity == 5) {
+				if (frames % (9 - (int) level / 5) == 0) {
+					health++;
+				}
+			}
+		}
+		if (identity == 4.1) {
+			if (Misc.rBt(0, 500) == 69) { // Eggs become non-egg adults
+				squaros.add(new Enemies(x, y, 1, 0, 50, 50, 1.8 + ((double) (level) * .1), 90, 90, true, -1, 0,
+						8 + level / 2, null, 4));
+				squaros.remove(this);
+			}
+		}
+
+		for (Enemies i : squaros) { //
 			if (i.health <= 0) {
 				money.money += i.prize;
+				if (i.identity == 4) { // this section is for when enemy4 dies and spawns in eggs
+					if (Misc.rBt(0, 1) == 1) {
+						squaros.add(new Enemies(i.x, i.y, 0, 0, 30, 30, 0, i.fullHealth * 2, i.fullHealth * 2, true, -1,
+								0, 2 + level / 2, null, 4.1));
+					}
+					if (Misc.rBt(0, 3) == 0) {
+						squaros.add(new Enemies(i.x - 15, i.y - 15, -2, -2, 30, 30, 0, i.fullHealth * 2,
+								i.fullHealth * 2, true, -1, 0, 2 + level / 2, null, 4.1));
+					}
+					if (Misc.rBt(0, 3) == 0) {
+						squaros.add(new Enemies(i.x + 15, i.y + 15, 2, 2, 30, 30, 0, i.fullHealth * 2, i.fullHealth * 2,
+								true, -1, 0, 2 + level / 2, null, 4.1));
+					}
+				}
 				squaros.remove(i);
 				break;
 			}
 			if (i.hasSpawned) {
-				if (i.x < -150) {
-					money.money += i.prize;
-					squaros.remove(i);
-					break;
+				if (i.x < -150 || i.x > 1970 || i.y < -50 || i.y > 1130) {
+					if (i.identity == 4.1) {
+						money.money += i.prize;
+						squaros.remove(i);
+						break;
+					}else {
+						i.x = - 100;
+						i.y = 490;
+					}
 				}
-				if (i.x > 1970) {
-					money.money += i.prize;
-					squaros.remove(i);
-					break;
-				}
-				if (i.y < -50) {
-					money.money += i.prize;
-					squaros.remove(i);
-					break;
-				}
-				if (i.y > 1130) {
-					money.money += i.prize;
-					squaros.remove(i);
-					break;
-				}
+
 			}
 		}
 
@@ -140,8 +212,8 @@ public class Enemies {
 						}
 
 						if (segments.get(i).identity == 2 || segments.get(i).identity == 2.1) { // -----first
-																											// diagonal
-																											// (north-east)
+																								// diagonal
+																								// (north-east)
 							// squaros.get(j).x = segments.get(i).x + 5;
 							squaros.get(j).vx = Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 							squaros.get(j).vy = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
@@ -169,22 +241,22 @@ public class Enemies {
 						}
 						if (segments.get(i).identity == 7 || segments.get(i).identity == 8
 								|| segments.get(i).identity == 11 || segments.get(i).identity == 18) { // vertical
-																													// DOWN
+																										// DOWN
 							squaros.get(j).x = segments.get(i).x + 5;
 							squaros.get(j).vx = 0;
 							squaros.get(j).vy = squaros.get(j).speed;
 						}
 						if (segments.get(i).identity == 15 || segments.get(i).identity == 15.1) { // -----
-																											// diagonal
-																											// (north-west)
+																									// diagonal
+																									// (north-west)
 							// squaros.get(j).y = segments.get(i).y + 5;
 							squaros.get(j).vx = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 							squaros.get(j).vy = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 						}
 
 						if (segments.get(i).identity == 17 || segments.get(i).identity == 17.1) { // -----
-																											// diagonal
-																											// (north-west)
+																									// diagonal
+																									// (north-west)
 							// squaros.get(j).y = segments.get(i).y + 5;
 							squaros.get(j).vx = -Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
 							squaros.get(j).vy = Math.sqrt((squaros.get(j).speed * squaros.get(j).speed) / 2);
@@ -193,7 +265,7 @@ public class Enemies {
 						// FINAL
 						if (segments.get(i).identity == 0) {
 							squaros.remove(j);
-							SCENE_2_Track1.lives--;
+							lives--;
 
 							break;
 						}
@@ -211,7 +283,7 @@ public class Enemies {
 				}
 			}
 		}
-
+		frames++;
 	}
 
 }

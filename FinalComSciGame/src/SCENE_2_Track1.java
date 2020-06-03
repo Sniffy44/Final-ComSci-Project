@@ -14,17 +14,21 @@ public class SCENE_2_Track1 extends Scene {
 
 	Font fntSmall = new Font("Yu Gothic UI Semilight", 0, 35);
 	Font fntSmall2 = new Font("Bahnschrift", 0, 35); // i likie
+	Font fntSuperSmall = new Font("Bahnschrift", 0, 15); // i likie
 
 	LevelManager lvlManager;
 
 	Button buttonLevelStart;
 	Button turret1Icon;
 	Button turret2Icon;
-	
+
 	Button buttonUpgrader1a;
 	Button buttonUpgrader1b;
 	Button buttonUpgrader2a;
 	Button buttonUpgrader2b;
+	Button buttonUpgraderMaster;
+	
+	Button buttonSell;
 
 	double frameStart = 0;
 
@@ -42,18 +46,22 @@ public class SCENE_2_Track1 extends Scene {
 	BufferedImage turret2Image;
 	BufferedImage popUpWindow;
 
-	public static int lives = 10;
+	int lives = 10;
 	int fullLives = 10;
 
 	int livesMover;
-	
+
 	int wasPressing;
 
 	boolean mouseIsPressingT1 = false;
 	boolean mouseIsPressingT2 = false;
 	boolean mouseIsPressingATurret = false;
 	boolean canPlace = true;
+	
+	double showFirerate;
+	
 
+			
 	Turret turretSelected = null;
 
 	Color tinter;
@@ -101,18 +109,19 @@ public class SCENE_2_Track1 extends Scene {
 		for (int i = 0; i < squaros.size(); i++) { // draws coins items with arrayList
 			squaros.get(i).draw(g2);
 		}
-		for (Turret t : turrets) {
-			t.draw(g2);
-		}
 		for (Projectile p : projectiles) {
 			p.draw(g2);
 		}
+		for (Turret t : turrets) {
+			t.draw(g2);
+		}
+		
 		// for (Path s : segments) {
 		// s.draw(g2);
 		// }
 
 		buttonLevelStart.draw(g, 18, 60);
-		//turret2Icon.draw(g, 28, 60);
+		// turret2Icon.draw(g, 28, 60);
 
 		if (mouseIsPressingATurret) {
 			((Graphics2D) g).setComposite(acHalf);
@@ -122,17 +131,19 @@ public class SCENE_2_Track1 extends Scene {
 				g.setColor(Color.gray);
 			if (mouseIsPressingT1) {
 				g.fillOval((int) InputManager.mPos.x - Turret1Basic.baseRange,
-						(int) InputManager.mPos.y - Turret1Basic.baseRange, Turret1Basic.baseRange * 2, Turret1Basic.baseRange * 2);
+						(int) InputManager.mPos.y - Turret1Basic.baseRange, Turret1Basic.baseRange * 2,
+						Turret1Basic.baseRange * 2);
 				g2.drawImage(turret1Image, (int) InputManager.mPos.x - Turret1Basic.baseWidth / 2,
-						(int) InputManager.mPos.y - Turret1Basic.baseHeight / 2, Turret1Basic.baseWidth, Turret1Basic.baseHeight,
-						null);
+						(int) InputManager.mPos.y - Turret1Basic.baseHeight / 2, Turret1Basic.baseWidth,
+						Turret1Basic.baseHeight, null);
 			}
 			if (mouseIsPressingT2) {
 				g.fillOval((int) InputManager.mPos.x - Turret2Spread.baseRange,
-						(int) InputManager.mPos.y - Turret2Spread.baseRange, Turret2Spread.baseRange * 2, Turret2Spread.baseRange * 2);
+						(int) InputManager.mPos.y - Turret2Spread.baseRange, Turret2Spread.baseRange * 2,
+						Turret2Spread.baseRange * 2);
 				g2.drawImage(turret2Image, (int) InputManager.mPos.x - Turret2Spread.baseWidth / 2,
-						(int) InputManager.mPos.y - Turret2Spread.baseHeight / 2, Turret2Spread.baseWidth, Turret2Spread.baseHeight,
-						null);
+						(int) InputManager.mPos.y - Turret2Spread.baseHeight / 2, Turret2Spread.baseWidth,
+						Turret2Spread.baseHeight, null);
 			}
 			((Graphics2D) g).setComposite(ac2);
 		}
@@ -141,8 +152,16 @@ public class SCENE_2_Track1 extends Scene {
 			g.drawImage(popUpWindow, -10, 0, Driver.screenWidth, Driver.screenHeight, null);
 			g.drawImage(turretSelected.texture, 570, 20, 140, 140, null);
 			g.setColor(whiteBlue);
-			g.drawString("Range:  " + turretSelected.range, 800, 70);
-			g.drawString("Firerate:  " + (double) 60 / turretSelected.firerate, 800, 100);
+			if (turretSelected.upgradeLvl != 4)
+				g.drawString("Lvl:  " + turretSelected.upgradeLvl, 810, 40);
+			if (turretSelected.upgradeLvl == 4)
+				g.drawString("Lvl:  Max", 810, 40);
+			g.drawString("Range:   " + turretSelected.range, 810, 80);
+			g.drawString("Firerate:  ", 810, 110);
+			g.drawString(String.format("%.2f", showFirerate), 943, 110);
+			g.drawString("Power:   ", 810, 140);
+			g.drawString(String.format("%.2f", turretSelected.fireSpeed), 943, 140);
+			g.drawString("Damage:" + turretSelected.damage, 810, 170);
 
 			g.setColor(Color.white);
 			g2.drawOval(turretSelected.x - turretSelected.range, turretSelected.y - turretSelected.range,
@@ -150,21 +169,71 @@ public class SCENE_2_Track1 extends Scene {
 			g2.setPaint(dimBlue);
 			g2.fillOval(turretSelected.x - turretSelected.range, turretSelected.y - turretSelected.range,
 					turretSelected.range * 2, turretSelected.range * 2);
+
+			buttonSell.draw(g, 7, 15);
+			g.setFont(fntSuperSmall);
+			g.setColor(whiteBlue);
+			g.drawString("" + (int)(turretSelected.netWorth*0.7), 660, 183);
+			// g.fillRect(1150, 10, 180, 80);
+			// g.fillRect(1150, 95, 180, 80);
 			
-			g.setColor(Color.yellow);
-			//g.fillRect(1150, 10, 180, 80);
-			//g.fillRect(1150, 95, 180, 80);
-			if(!turretSelected.button1aPressed && !turretSelected.button1bPressed) buttonUpgrader1a.draw(g, 18, 60);
-			if(!turretSelected.button2aPressed && !turretSelected.button2bPressed) buttonUpgrader2a.draw(g, 18, 60);
-			if(turretSelected.button1aPressed && !turretSelected.button1bPressed) buttonUpgrader1b.draw(g, 18, 60);
-			if(turretSelected.button2aPressed && !turretSelected.button2bPressed) buttonUpgrader2b.draw(g, 18, 60);
-			
-			//if(turretSelected.button1aPressed && turretSelected.button1bPressed) g.fillRect(1150, 10, 180, 80);
-			//if(turretSelected.button2aPressed && turretSelected.button2bPressed) g.fillRect(1150, 95, 180, 80);
+			if (!turretSelected.button1aPressed && !turretSelected.button1bPressed) {
+				buttonUpgrader1a.draw(g, 18, 60);
+				g.setFont(fntSuperSmall);
+				g.setColor(whiteBlue);				
+				if(money.money < turretSelected.upg1aPrice) g.setColor(Color.red);
 				
-			
+				g.drawString("$" + turretSelected.upg1aPrice, 1130, 40);
+			}
+
+			if (!turretSelected.button2aPressed && !turretSelected.button2bPressed) {
+				buttonUpgrader2a.draw(g, 18, 60);
+				g.setFont(fntSuperSmall);
+				g.setColor(whiteBlue);
+				if(money.money < turretSelected.upg2aPrice) g.setColor(Color.red);
+				g.drawString("$" + turretSelected.upg2aPrice, 1130, 140);
+			}
+
+			if (turretSelected.button1aPressed && !turretSelected.button1bPressed) {
+				buttonUpgrader1b.draw(g, 18, 60);
+				g.setFont(fntSuperSmall);
+				g.setColor(whiteBlue);
+				if(money.money < turretSelected.upg1bPrice) g.setColor(Color.red);
+				g.drawString("$" + turretSelected.upg1bPrice, 1130, 40);
+			}
+
+			if (turretSelected.button2aPressed && !turretSelected.button2bPressed) {
+				buttonUpgrader2b.draw(g, 18, 60);
+				g.setFont(fntSuperSmall);
+				g.setColor(whiteBlue);
+				if(money.money < turretSelected.upg2bPrice) g.setColor(Color.red);
+				g.drawString("$" + turretSelected.upg2bPrice, 1130, 140);
+			}
+
+			if (turretSelected.button1bPressed && turretSelected.button2bPressed
+					&& !turretSelected.buttonSpecialPressed) {
+				buttonUpgraderMaster.draw(g, 18, 60);
+				g.setFont(fntSuperSmall);
+				g.setColor(whiteBlue);
+				if(money.money < turretSelected.upgMasterPrice) g.setColor(Color.red);
+				g.drawString("$" + turretSelected.upgMasterPrice, 1130, 80);
+			}
+
+			if (turretSelected.buttonSpecialPressed) { // after turret is maxed out
+				g.setColor(Color.WHITE);
+				g.setFont(fntSmall2);
+				g.drawString("Max Level", 1175, 90);
+				g.drawLine(1145, 100, 1350, 100);
+				g.drawLine(1200, 110, 1300, 110);
+			}
+
+			// if(turretSelected.button1aPressed && turretSelected.button1bPressed)
+			// g.fillRect(1150, 10, 180, 80);
+			// if(turretSelected.button2aPressed && turretSelected.button2bPressed)
+			// g.fillRect(1150, 95, 180, 80);
+
 		}
-		
+
 		// if (mouseIsPressingT1 == true) {
 		// g.setColor(Color.white);
 		// mouseHitbox.draw(g2);
@@ -201,53 +270,109 @@ public class SCENE_2_Track1 extends Scene {
 				// levelIsActive = true;
 
 				if (level == 1)
-					lvlManager.levelOneT1(squaros);
+					lvlManager.levelOneT1(squaros, level);
 				if (level == 2)
-					lvlManager.levelTwoT1(squaros);
+					lvlManager.levelTwoT1(squaros, level);
+				if (level == 3)
+					lvlManager.levelThreeT1(squaros, level);
 
 			}
 		}
-		
-		if (turretSelected != null) { //pop down menu stufz (upgrade/sell buttons)
-			//System.out.println(turretSelected.upgradeLvl);
-			//if(!turretSelected.button1aPressed && !turretSelected.button1bPressed) 
-				buttonUpgrader1a.update();
-			//if(!turretSelected.button2aPressed && !turretSelected.button2bPressed) 
-				buttonUpgrader2a.update();
-			//if(turretSelected.button1aPressed && !turretSelected.button1bPressed) 
-				if(turretSelected.button1aPressed) buttonUpgrader1b.update();
-			//if(turretSelected.button2aPressed && !turretSelected.button2bPressed) 
-				if(turretSelected.button2aPressed) buttonUpgrader2b.update();
+
+		if (turretSelected != null) { // pop down menu stufz (upgrade/sell buttons)
+			//System.out.println(turretSelected.numCollisions);
 			
-			if(buttonUpgrader1a.clicked && !turretSelected.button1aPressed && !turretSelected.button1bPressed) { // 11111111111AAAAAAAAAAAAAAA
-			//	System.out.println("balls");
-				turretSelected.upgradeLvl = 2;
+			showFirerate = (double) 60 / turretSelected.firerate;
+			buttonSell.update();
+			
+			buttonUpgrader1a.update();
+			// if(!turretSelected.button2aPressed && !turretSelected.button2bPressed)
+			buttonUpgrader2a.update();
+			// if(turretSelected.button1aPressed && !turretSelected.button1bPressed)
+			if (turretSelected.button1aPressed)
+				buttonUpgrader1b.update();
+			// if(turretSelected.button2aPressed && !turretSelected.button2bPressed)
+			if (turretSelected.button2aPressed)
+				buttonUpgrader2b.update();
+
+			if (turretSelected.button1bPressed && turretSelected.button2bPressed)
+				buttonUpgraderMaster.update();
+
+			if (buttonUpgrader1a.clicked && money.money >= turretSelected.upg1aPrice && !turretSelected.button1aPressed
+					&& !turretSelected.button1bPressed) { // 11111111111AAAAAAAAAAAAAAA
+				// System.out.println("balls");
+				if (turretSelected.upgradeLvl != 3)
+					turretSelected.upgradeLvl = 2;
 				turretSelected.button1aPressed = true;
-				if(turretSelected.identity == 1) turret1upgrade1a();
-				if(turretSelected.identity == 2) turret2upgrade1a();
-				//buttonUpgrader1a.clicked = false;
+				turretSelected.netWorth += turretSelected.upg1aPrice;
+				money.money -= turretSelected.upg1aPrice;
+
+				if (turretSelected.identity == 1)
+					turret1upgrade1a();
+				if (turretSelected.identity == 2)
+					turret2upgrade1a();
+				// buttonUpgrader1a.clicked = false;
 			}
-			if(buttonUpgrader1b.clicked && turretSelected.button1aPressed && !turretSelected.button1bPressed) { // 11111111111BBBBBBBBBBBBBB
+			if (buttonUpgrader1b.clicked && money.money >= turretSelected.upg1bPrice && turretSelected.button1aPressed
+					&& !turretSelected.button1bPressed) { // 11111111111BBBBBBBBBBBBBB
 				turretSelected.upgradeLvl = 3;
 				turretSelected.button1bPressed = true;
-				if(turretSelected.identity == 1) turret1upgrade1b();
-				if(turretSelected.identity == 2) turret2upgrade1b();
+				turretSelected.netWorth += turretSelected.upg1bPrice;
+				money.money -= turretSelected.upg1bPrice;
+
+				if (turretSelected.identity == 1)
+					turret1upgrade1b();
+				if (turretSelected.identity == 2)
+					turret2upgrade1b();
 			}
-			if(buttonUpgrader2a.clicked && !turretSelected.button2aPressed && !turretSelected.button2bPressed) { // 2222222222222AAAAAAAAAAAAAA
-				turretSelected.upgradeLvl = 2;
+			if (buttonUpgrader2a.clicked && money.money >= turretSelected.upg2aPrice && !turretSelected.button2aPressed
+					&& !turretSelected.button2bPressed) { // 2222222222222AAAAAAAAAAAAAA
+				if (turretSelected.upgradeLvl != 3)
+					turretSelected.upgradeLvl = 2;
 				turretSelected.button2aPressed = true;
-				if(turretSelected.identity == 1) turret1upgrade2a();
-				if(turretSelected.identity == 2) turret2upgrade2a();
+				turretSelected.netWorth += turretSelected.upg2aPrice;
+				money.money -= turretSelected.upg2aPrice;
+
+				if (turretSelected.identity == 1)
+					turret1upgrade2a();
+				if (turretSelected.identity == 2)
+					turret2upgrade2a();
 			}
-			if(buttonUpgrader2b.clicked && turretSelected.button2aPressed && !turretSelected.button2bPressed) { // 2222222222222BBBBBBBBBBB
+			if (buttonUpgrader2b.clicked && money.money >= turretSelected.upg2bPrice && turretSelected.button2aPressed
+					&& !turretSelected.button2bPressed) { // 2222222222222BBBBBBBBBBB
 				turretSelected.upgradeLvl = 3;
 				turretSelected.button2bPressed = true;
-				
-				if(turretSelected.identity == 1) turret1upgrade2b();
-				if(turretSelected.identity == 2) turret2upgrade2b();
+				turretSelected.netWorth += turretSelected.upg2bPrice;
+				money.money -= turretSelected.upg2bPrice;
+
+				if (turretSelected.identity == 1)
+					turret1upgrade2b();
+				if (turretSelected.identity == 2)
+					turret2upgrade2b();
 			}
-		}
-		
+
+			if (buttonUpgraderMaster.clicked && money.money >= turretSelected.upgMasterPrice) { // MASTER MASTER MASTER
+																								// MASTER
+				turretSelected.upgradeLvl = 4;
+				turretSelected.buttonSpecialPressed = true;
+				turretSelected.netWorth += turretSelected.upgMasterPrice;
+				money.money -= turretSelected.upgMasterPrice;
+				
+				if (turretSelected.identity == 1)
+					turret1upgradeMax();
+				if (turretSelected.identity == 2)
+					turret2upgradeMax();
+					
+			}
+			
+			if(buttonSell.clicked) {
+				turretSelected.isSold = true;
+				money.money += (int)(turretSelected.netWorth*0.7);
+				turretSelected = null;
+				
+			}
+		} // END OF CLICKING ON A TURRET POP DOWN INFO ENDDDD
+
 		if (turret1Icon.glowing && InputManager.mouse[1] && money.money >= Turret1Basic.basePrice
 				&& !mouseIsPressingATurret) { //
 			mouseIsPressingT1 = true;
@@ -282,12 +407,15 @@ public class SCENE_2_Track1 extends Scene {
 					break;
 				}
 			}
-			if(mouseHitbox.pos.x > 1650) canPlace = false;
-			if(mouseHitbox.pos.y < 150) canPlace = false;
+			if (mouseHitbox.pos.x > 1650)
+				canPlace = false;
+			if (mouseHitbox.pos.y < 150)
+				canPlace = false;
 		}
 		// DONT EDIT UP <<<---
 
-		if (InputManager.mouseReleased[1] && !buttonUpgrader1a.clicked && !buttonUpgrader2a.clicked) {
+		if (InputManager.mouseReleased[1] && !buttonUpgrader1a.clicked && !buttonUpgrader2a.clicked
+				&& !buttonUpgraderMaster.clicked) {
 			if (canPlace && mouseIsPressingT1) {
 				turrets.add(new Turret1Basic((int) InputManager.mPos.x, (int) InputManager.mPos.y, 0, 1));
 				money.money -= Turret1Basic.basePrice;
@@ -300,8 +428,9 @@ public class SCENE_2_Track1 extends Scene {
 				wasPressing = 2;
 				mouseIsPressingT2 = false;
 			}
-			
-			
+
+			mouseIsPressingT1 = false;
+			mouseIsPressingT2 = false;
 			mouseIsPressingATurret = false;
 //			if(buttonUpgrader1a.clicked) {
 //				//mouseIsPressingATurret = true;
@@ -310,10 +439,19 @@ public class SCENE_2_Track1 extends Scene {
 //			}
 		}
 
-		if (InputManager.mouseReleased[1] && !buttonUpgrader1a.clicked && !buttonUpgrader2a.clicked) { // click on turret, shows turret info and upgrade etc.
+		if (InputManager.mouseReleased[1] && !buttonUpgrader1a.clicked && !buttonUpgrader2a.clicked
+				&& !buttonUpgraderMaster.clicked) { // click on
+			// turret, shows
+			// turret info
+			// and upgrade
+			// etc.
 			for (Turret t : turrets) {
 				if (InputManager.mPos.inside(t.hitbox)) {
 					turretSelected = t;
+					break;
+				}
+				if(t.isSold) {
+					turrets.remove(t);
 					break;
 				}
 				turretSelected = null;
@@ -325,9 +463,14 @@ public class SCENE_2_Track1 extends Scene {
 		}
 
 		for (int i = 0; i < squaros.size(); i++) {
-			squaros.get(i).update(squaros, money, segments);
+			squaros.get(i).update(squaros, money, segments, level, lives);
 		}
-
+		try {
+			// System.out.println(squaros.get(0).speed);
+		} catch(IndexOutOfBoundsException e) {
+			
+		}
+		
 		for (Turret t : turrets) {
 			t.update(squaros, projectiles);
 		}
@@ -342,9 +485,11 @@ public class SCENE_2_Track1 extends Scene {
 			level++;
 
 			if (level == 1)
-				lvlManager.levelOneT1(squaros);
+				lvlManager.levelOneT1(squaros, level);
 			if (level == 2)
-				lvlManager.levelTwoT1(squaros);
+				lvlManager.levelTwoT1(squaros, level);
+			if (level == 3)
+				lvlManager.levelThreeT1(squaros, level);
 		}
 		// if(level == 1) System.out.println(levelTime);
 
@@ -360,11 +505,11 @@ public class SCENE_2_Track1 extends Scene {
 		Driver.track = 1;
 		lvlManager = new LevelManager();
 
-		money.money = 40;
+		money.money = 200;
 
 		// turrets.add(new BasicTurret(960, 480, 0, 0));
 		// turrets.add(new BasicTurret(1400, 350, 0, 0));
-		//turrets.add(new Turret2Spread(1400, 350, 0, 0));
+		// turrets.add(new Turret2Spread(1400, 350, 0, 0));
 
 		segments.add(new Path(355, 841, 10, 10, false, 0)); // ending box
 		segments.add(new Path(310, 798, 100, 100, false, -10)); // buffer box at end, prevent turret on end
@@ -414,51 +559,78 @@ public class SCENE_2_Track1 extends Scene {
 		turret2Icon = new Button(new Rect(1718, 257, 80, 80), null, Color.white, "", Color.WHITE, fntSmall, true,
 				Color.gray, false);
 
-		buttonUpgrader1a = new Button(new Rect(1150, 10, 180, 80), null, Color.black, "Upgrade1", Color.WHITE,
-				fntSmall, true, Color.gray, false);
+		buttonUpgrader1a = new Button(new Rect(1150, 10, 180, 80), null, Color.black, "Upgrade1", Color.WHITE, fntSmall,
+				true, Color.gray, false);
 		buttonUpgrader1b = new Button(new Rect(1150, 10, 180, 80), null, Color.black, "Upgrade1.5", Color.WHITE,
 				fntSmall, true, Color.gray, false);
-		buttonUpgrader2a = new Button(new Rect(1150, 95, 180, 80), null, Color.black, "Upgrade2", Color.WHITE,
-				fntSmall, true, Color.gray, false);
+		buttonUpgrader2a = new Button(new Rect(1150, 95, 180, 80), null, Color.black, "Upgrade2", Color.WHITE, fntSmall,
+				true, Color.gray, false);
 		buttonUpgrader2b = new Button(new Rect(1150, 95, 180, 80), null, Color.black, "Upgrade2.5", Color.WHITE,
 				fntSmall, true, Color.gray, false);
-	
+		buttonUpgraderMaster = new Button(new Rect(1150, 52, 180, 80), null, Color.black, "UpgradeMaster", Color.WHITE,
+				fntSmall, true, Color.gray, false);
+		
+		buttonSell = new Button(new Rect(590, 168, 100, 20), null, Color.black, "Sell for $", whiteBlue,
+				fntSuperSmall, true, Color.gray, false);
+
 	}
-	
+
+	//|||||||||||||||||||||||||||||||||||||||||||||||||||||||
+		//||||||||||||||||||||||1111111111111111111||||||||||||||||||
 	public void turret1upgrade1a() {
 		turretSelected.range *= 1.15;
 		turretSelected.fireSpeed *= 1.15;
 	}
+
 	public void turret1upgrade1b() {
-		turretSelected.range *= 1.15;
-		turretSelected.fireSpeed *= 1.15;
+		turretSelected.range *= 1.25;
+		turretSelected.fireSpeed *= 1.2;
 	}
-	public void turret1upgrade2a() { 
-		turretSelected.firerate -= 5; //original = 40
+
+	public void turret1upgrade2a() {
+		turretSelected.firerate -= 6; // original = 40
+		
 	}
-	public void turret1upgrade2b() { 
-		turretSelected.firerate -= 5; //original = 40
+
+	public void turret1upgrade2b() {
+		turretSelected.firerate -= 2; // original = 40 before 34
+		turretSelected.numCollisions = 2;
+	}
+	public void turret1upgradeMax() {
+		turretSelected.firerate -= 3; // original = 40 before 32
+		turretSelected.fireSpeed *= 1.1;
 	}
 	
 	
+	//|||||||||||||||||||||||||||||||||||||||||||||||||||||||
+	//||||||||||||||||||||||2222222222222222||||||||||||||||||
+
 	public void turret2upgrade1a() {
 		turretSelected.range *= 1.2;
 		turretSelected.fireSpeed *= 1.1;
-		
+
 	}
+
 	public void turret2upgrade1b() {
 		turretSelected.range *= 1.2;
 		turretSelected.fireSpeed *= 1.1;
-		
+
 	}
-	public void turret2upgrade2a() {
+
+	public void turret2upgrade2a() { // norm 60
 		turretSelected.firerate -= 6;
-		
-		
+
 	}
+
 	public void turret2upgrade2b() {
 		turretSelected.firerate -= 6;
-		
+
+	}
+	public void turret2upgradeMax() {
+		turretSelected.firerate -= 3; 
+		turretSelected.numCollisions = 30;
+		turretSelected.damage = 60;
+		//turretSelected.fireSpeed *= 1.1;
 	}
 
 }
