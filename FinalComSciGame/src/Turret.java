@@ -30,6 +30,8 @@ public abstract class Turret {
 	int numCollisions;
 	//int damage;
 	BufferedImage texture;
+	BufferedImage textureTop;
+	BufferedImage textureBase;
 	int identity;
 
 	Rect hitbox;
@@ -40,7 +42,7 @@ public abstract class Turret {
 			double fireSpeed, int upgradeLvl, int netWorth, boolean button1aPressed, boolean button2aPressed,
 			boolean button1bPressed, boolean button2bPressed, boolean buttonSpecialPressed, int upg1aPrice,
 			int upg2aPrice, int upg1bPrice, int upg2bPrice, int upgMasterPrice, boolean isSold, int numCollisions,
-			BufferedImage texture, int identity) {
+			BufferedImage texture, BufferedImage textureTop, BufferedImage textureBase, int identity) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -67,6 +69,8 @@ public abstract class Turret {
 		this.isSold = isSold;
 		this.numCollisions = numCollisions;
 		this.texture = texture;
+		this.textureTop = textureTop;
+		this.textureBase = textureBase;
 		this.identity = identity;
 		this.hitbox = new Rect(x - width / 2, y - height / 2, width, height);
 	}
@@ -76,18 +80,20 @@ public abstract class Turret {
 		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		// RenderingHints.VALUE_ANTIALIAS_ON);
 
+		if(textureTop != null) 	g2.drawImage(textureBase, x - width / 2, y - height / 2, width, height, null);
+		
 		g2.rotate(rotation, x, y);
-
-		// g.setColor(Color.white);
-		// g2.drawOval(x - range, y - range, range * 2, range * 2);
-		// g2.setPaint(dimBlue);
-		// g2.fillOval(x - range, y - range, range * 2, range * 2);
-		g2.drawImage(texture, x - width / 2, y - height / 2, width, height, null);
-
+		if(textureTop == null) {
+			g2.drawImage(texture, x - width / 2, y - height / 2, width, height, null);
+		}
+		if(textureTop != null)	{
+			g2.drawImage(textureTop, x - width / 2, y - height / 2, width, height, null);
+		}
 		g2.rotate(-rotation, x, y);
+		
 
 	}
 
-	public abstract void update(ArrayList<Enemies> squaros, ArrayList<Projectile> projectiles);
+	public abstract void update(ArrayList<Enemies> squaros, ArrayList<Projectile> projectiles, ArrayList<Line> lines);
 
 }

@@ -45,12 +45,12 @@ public class Projectile {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		if (identity == 1) { // blue balls from basicTurrent
+		if (identity == 1) { // green balls from basicTurrent
 			g.setColor(Color.green);
 			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
 			// hitbox1.draw(g2);
 		}
-		if (identity == 2) { // blue balls from basicTurrent
+		if (identity == 2) { //purple balls from spreadTurrent
 			g.setColor(new Color(147, 112, 219));
 			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
 			// hitbox1.draw(g2);
@@ -60,7 +60,18 @@ public class Projectile {
 			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
 			
 		}
-
+		if (identity == 4) { // gray balls from rapidTurrent
+			g.setColor(Color.white);
+			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
+			
+		}
+		if (identity == 5) { // gray balls from rapidTurrent
+			g.setColor(Color.black);
+			g.fillOval((int) x - width / 2, (int) y - height / 2, width, height);
+			
+		}
+		
+		
 	}
 
 	public void update(ArrayList<Enemies> squaros, ArrayList<Turret> turrets, ArrayList<Projectile> projectiles) {

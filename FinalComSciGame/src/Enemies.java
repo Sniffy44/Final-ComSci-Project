@@ -122,7 +122,7 @@ public class Enemies {
 
 	}
 
-	public void update(ArrayList<Enemies> squaros, Money money, ArrayList<Path> segments, int level, int lives) {
+	public void update(ArrayList<Enemies> squaros, Money money, ArrayList<Path> segments, int level) {
 		x += vx;
 		y += vy;
 
@@ -158,46 +158,51 @@ public class Enemies {
 			}
 		}
 		if (identity == 4.1) {
-			if (Misc.rBt(0, 500) == 69) { // Eggs become non-egg adults
+			if (Misc.rBt(0, 400) == 69) { // Eggs become non-egg adults
 				squaros.add(new Enemies(x, y, 1, 0, 50, 50, 1.8 + ((double) (level) * .1), 90, 90, true, -1, 0,
 						8 + level / 2, null, 4));
 				squaros.remove(this);
 			}
 		}
 
-		for (Enemies i : squaros) { //
-			if (i.health <= 0) {
-				money.money += i.prize;
-				if (i.identity == 4) { // this section is for when enemy4 dies and spawns in eggs
-					if (Misc.rBt(0, 1) == 1) {
-						squaros.add(new Enemies(i.x, i.y, 0, 0, 30, 30, 0, i.fullHealth * 2, i.fullHealth * 2, true, -1,
-								0, 2 + level / 2, null, 4.1));
-					}
-					if (Misc.rBt(0, 3) == 0) {
-						squaros.add(new Enemies(i.x - 15, i.y - 15, -2, -2, 30, 30, 0, i.fullHealth * 2,
-								i.fullHealth * 2, true, -1, 0, 2 + level / 2, null, 4.1));
-					}
-					if (Misc.rBt(0, 3) == 0) {
-						squaros.add(new Enemies(i.x + 15, i.y + 15, 2, 2, 30, 30, 0, i.fullHealth * 2, i.fullHealth * 2,
-								true, -1, 0, 2 + level / 2, null, 4.1));
-					}
-				}
-				squaros.remove(i);
-				break;
-			}
-			if (i.hasSpawned) {
-				if (i.x < -150 || i.x > 1970 || i.y < -50 || i.y > 1130) {
-					if (i.identity == 4.1) {
-						money.money += i.prize;
-						squaros.remove(i);
-						break;
-					}else {
-						i.x = - 100;
-						i.y = 490;
-					}
-				}
+		if (health <= 0) {
+			money.money += prize;
+			
+			if (identity == 4) { // this section is for when enemy4 dies and spawns in eggs
+//					int launchAngle = Misc.rBt(0, 6);
+//					double pvx = Math.sin(launchAngle) * 5;
+//					double pvy = -Math.cos(launchAngle) * 5;
 
+				if (Misc.rBt(0, 1) == 1) {
+					squaros.add(new Enemies(x, y, 0, 0, 30, 30, 0, fullHealth * 2, fullHealth * 2, true, -1, 0,
+							2 + level / 2, null, 4.1));
+				}
+				if (Misc.rBt(0, 3) == 0) {
+					squaros.add(new Enemies(x - 20, y - 20, -2, -2, 30, 30, 0, fullHealth * 2, fullHealth * 2, true, -1,
+							0, 2 + level / 2, null, 4.1));
+				}
+				if (Misc.rBt(0, 3) == 0) {
+					squaros.add(new Enemies(x + 20, y + 20, 2, 2, 30, 30, 0, fullHealth * 2, fullHealth * 2, true, -1,
+							0, 2 + level / 2, null, 4.1));
+				}
 			}
+			squaros.remove(this);
+			
+
+		}
+		if (hasSpawned) {
+			if (x < -150 || x > 1970 || y < -50 || y > 1130) {
+				if (identity == 4.1) {
+					money.money += prize;
+					squaros.remove(this);
+
+				} else {
+					x = -100;
+					y = 490;
+					distanceTravelled = 0;
+				}
+			}
+
 		}
 
 		if (Driver.track == 1) { // TRACK ONE INFO COLLISIONS YAY
@@ -265,7 +270,7 @@ public class Enemies {
 						// FINAL
 						if (segments.get(i).identity == 0) {
 							squaros.remove(j);
-							lives--;
+							SCENE_2_Track1.lives--;
 
 							break;
 						}

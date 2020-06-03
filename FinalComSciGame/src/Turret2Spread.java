@@ -42,12 +42,12 @@ public class Turret2Spread extends Turret {
 		super(x, y, baseWidth, baseHeight, basePrice, rotation, baseRange, baseDamage, baseFirerate, baseFireSpeed,
 				baseUpgradeLvl, baseNetWorth, baseButton1aPressed, baseButton2aPressed, baseButton1bPressed,
 				baseButton2bPressed, baseButtonSpecialPressed, baseUpg1aPrice, baseUpg2aPrice, baseUpg1bPrice,
-				baseUpg2bPrice, baseUpgMasterPrice, baseIsSold, baseNumCollisions, lvl1upgrade, identity);
+				baseUpg2bPrice, baseUpgMasterPrice, baseIsSold, baseNumCollisions, lvl1upgrade, null, null, identity);
 
 	}
 
 	@Override
-	public void update(ArrayList<Enemies> squaros, ArrayList<Projectile> projectiles) {
+	public void update(ArrayList<Enemies> squaros, ArrayList<Projectile> projectiles, ArrayList<Line> lines) {
 		lockedOn = false;
 		for (Enemies s : squaros) {
 			if (new Point(x, y).distanceTo(new Point(s.x, s.y)) < range) {

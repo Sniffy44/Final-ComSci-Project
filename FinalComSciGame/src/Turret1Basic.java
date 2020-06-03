@@ -28,7 +28,7 @@ public class Turret1Basic extends Turret {
 	static int baseUpg1bPrice = 10;
 	static int baseUpg2bPrice = 10;
 	static int baseUpgMasterPrice = 20;
-	
+
 	static boolean baseIsSold = false;
 
 	// static BufferedImage texture;
@@ -42,27 +42,38 @@ public class Turret1Basic extends Turret {
 		super(x, y, baseWidth, baseHeight, basePrice, rotation, baseRange, baseDamage, baseFirerate, baseFireSpeed,
 				baseUpgradeLvl, baseNetWorth, baseButton1aPressed, baseButton2aPressed, baseButton1bPressed,
 				baseButton2bPressed, baseButtonSpecialPressed, baseUpg1aPrice, baseUpg2aPrice, baseUpg1bPrice,
-				baseUpg2bPrice, baseUpgMasterPrice, baseIsSold, baseNumCollisions, lvl1upgrade, identity);
+				baseUpg2bPrice, baseUpgMasterPrice, baseIsSold, baseNumCollisions, lvl1upgrade, null, null, identity);
 
 	}
 
 	@Override
-	public void update(ArrayList<Enemies> squaros, ArrayList<Projectile> projectiles) {
+	public void update(ArrayList<Enemies> squaros, ArrayList<Projectile> projectiles, ArrayList<Line> lines) {
 		lockedOn = false;
+		ArrayList<Enemies> enemiesInRange = new ArrayList<Enemies>();
+
 		for (Enemies s : squaros) {
 			if (new Point(x, y).distanceTo(new Point(s.x, s.y)) < range) {
-				double angleTo = new Point(x, y).angleTo(new Point(s.x, s.y));
-				rotation = angleTo - Math.PI / 2;
-				lockedOn = true;
+				enemiesInRange.add(s);
 
 			}
+		}
+		if (enemiesInRange.size() != 0) {
+			Enemies targetEnemy = enemiesInRange.get(0);
+			for (Enemies s : enemiesInRange) {
+				if(s.distanceTravelled > targetEnemy.distanceTravelled) {
+					targetEnemy = s;
+				}		
+			}
+			double angleTo = new Point(x, y).angleTo(new Point(targetEnemy.x, targetEnemy.y));
+			rotation = angleTo - Math.PI / 2;
+			lockedOn = true;
 		}
 
 		if (lockedOn && timeSLS >= firerate) {
 			double pvx = Math.sin(rotation) * fireSpeed;
 			double pvy = -Math.cos(rotation) * fireSpeed;
 			projectiles.add(new Projectile(x, y, 10, 10, pvx, pvy, damage, numCollisions, 100, null, 1));
-			if(upgradeLvl == 4) {
+			if (upgradeLvl == 4) {
 				double pvxR = Math.sin(rotation + 0.3) * fireSpeed;
 				double pvyR = -Math.cos(rotation + 0.3) * fireSpeed;
 				double pvxL = Math.sin(rotation - 0.3) * fireSpeed;
