@@ -12,10 +12,10 @@ public class Turret3Rapid extends Turret {
 
 	static int baseWidth = 70;
 	static int baseHeight = 70;
-	static int basePrice = 25;
+	static int basePrice = 115;
 	static int baseRange = 120;
 	static int baseDamage = 28;
-	static int baseNetWorth = 25;
+	static int baseNetWorth = 115;
 	static int baseNumCollisions = 1;
 	static boolean baseButton1aPressed = false;
 	static boolean baseButton2aPressed = false;
@@ -23,11 +23,11 @@ public class Turret3Rapid extends Turret {
 	static boolean baseButton2bPressed = false;
 	static boolean baseButtonSpecialPressed = false;
 
-	static int baseUpg1aPrice = 8;
-	static int baseUpg2aPrice = 8;
-	static int baseUpg1bPrice = 14;
-	static int baseUpg2bPrice = 14;
-	static int baseUpgMasterPrice = 25;
+	static int baseUpg1aPrice = 55;
+	static int baseUpg2aPrice = 55;
+	static int baseUpg1bPrice = 75;
+	static int baseUpg2bPrice = 75;
+	static int baseUpgMasterPrice = 150;
 
 	static boolean baseIsSold = false;
 
@@ -96,14 +96,6 @@ public class Turret3Rapid extends Turret {
 				projectiles.add(new Projectile(x - pvy*1.2, y + pvx*1.2, 6, 6, pvx, pvy, damage, numCollisions, 50, null, 4));
 
 			}
-//			if(upgradeLvl == 4) {
-//				double pvxR = Math.sin(rotation + 0.3) * fireSpeed;
-//				double pvyR = -Math.cos(rotation + 0.3) * fireSpeed;
-//				double pvxL = Math.sin(rotation - 0.3) * fireSpeed;
-//				double pvyL = -Math.cos(rotation - 0.3) * fireSpeed;
-//				projectiles.add(new Projectile(x, y, 10, 10, pvxR, pvyR, 40, numCollisions, 100, null, 1));
-//				projectiles.add(new Projectile(x, y, 10, 10, pvxL, pvyL, 40, numCollisions, 100, null, 1));
-//			}
 			timeSLS = 0;
 			// System.out.println(pvx + " " + pvy);
 		}

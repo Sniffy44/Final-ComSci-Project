@@ -114,11 +114,9 @@ public class Enemies {
 			g.fillRect((int) x - 30, (int) y - height / 2 - 20, (int) (healthRatio * 60), 10);
 		}
 
-		g.setColor(Color.white);
-		// hitbox.draw(g2);
 
-		g.setColor(Color.blue);
-		pathHitbox.draw(g2);
+//		g.setColor(Color.blue);
+//		pathHitbox.draw(g2);
 
 	}
 
@@ -142,17 +140,17 @@ public class Enemies {
 
 		if (hasSpawned && health < fullHealth) { // healing of certain enemies
 			if (identity == 3) {
-				if (frames % (6 - (int) level / 5) == 0) {
+				if (frames % (4 - (int) level / 8) == 0) {
 					health++;
 				}
 			}
 			if (identity == 4) {
-				if (frames % (12 - (int) level / 5) == 0) {
+				if (frames % (12 - (int) level / 8) == 0) {
 					health++;
 				}
 			}
 			if (identity == 5) {
-				if (frames % (9 - (int) level / 5) == 0) {
+				if (frames % (9 - (int) level / 8) == 0) {
 					health++;
 				}
 			}

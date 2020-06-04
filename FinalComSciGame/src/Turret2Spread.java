@@ -14,10 +14,10 @@ public class Turret2Spread extends Turret {
 
 	static int baseWidth = 70;
 	static int baseHeight = 70;
-	static int basePrice = 20;
+	static int basePrice = 90;
 	static int baseRange = 100;
 	static int baseDamage = 40;
-	static int baseNetWorth = 20;
+	static int baseNetWorth = 90;
 	static int baseNumCollisions = 1;
 	static boolean baseButton1aPressed = false;
 	static boolean baseButton2aPressed = false;
@@ -25,11 +25,11 @@ public class Turret2Spread extends Turret {
 	static boolean baseButton2bPressed = false;
 	static boolean baseButtonSpecialPressed = false;
 
-	static int baseUpg1aPrice = 7;
-	static int baseUpg2aPrice = 7;
-	static int baseUpg1bPrice = 13;
-	static int baseUpg2bPrice = 13;
-	static int baseUpgMasterPrice = 25;
+	static int baseUpg1aPrice = 40;
+	static int baseUpg2aPrice = 40;
+	static int baseUpg1bPrice = 65;
+	static int baseUpg2bPrice = 65;
+	static int baseUpgMasterPrice = 125;
 
 	static boolean baseIsSold = false;
 

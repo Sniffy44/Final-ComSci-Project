@@ -7,15 +7,15 @@ public class Turret4Snip extends Turret {
 	boolean lockedOn = false;
 	int timeSLS;
 
-	static double baseFireSpeed = 0;
+	static double baseFireSpeed = 100;
 	static int baseFirerate = 180; // INVERSE ([how many frames between shots])
 
 	static int baseWidth = 70;
 	static int baseHeight = 70;
-	static int basePrice = 20;
+	static int basePrice = 100;
 	static int baseRange = 1900;
 	static int baseDamage = 100;
-	static int baseNetWorth = 20;
+	static int baseNetWorth = 100;
 	static int baseNumCollisions = 1;
 	static boolean baseButton1aPressed = false;
 	static boolean baseButton2aPressed = false;
@@ -23,11 +23,11 @@ public class Turret4Snip extends Turret {
 	static boolean baseButton2bPressed = false;
 	static boolean baseButtonSpecialPressed = false;
 
-	static int baseUpg1aPrice = 7;
-	static int baseUpg2aPrice = 7;
-	static int baseUpg1bPrice = 12;
-	static int baseUpg2bPrice = 12;
-	static int baseUpgMasterPrice = 22;
+	static int baseUpg1aPrice = 42;
+	static int baseUpg2aPrice = 42;
+	static int baseUpg1bPrice = 70;
+	static int baseUpg2bPrice = 70;
+	static int baseUpgMasterPrice = 145;
 
 	static boolean baseIsSold = false;
 	
@@ -41,16 +41,17 @@ public class Turret4Snip extends Turret {
 	static BufferedImage lvl1upgradeTop = Misc.loadImage("/Turret4Snip_lvl1_top.png");
 	static BufferedImage lvl1upgradeBase = Misc.loadImage("/Turret4Snip_lvl1_base.png");
 
-//	static BufferedImage lvl2upgrade = Misc.loadImage("/Turret3Rapid_lvl2_main.png");
-//	static BufferedImage lvl2upgradeTop = Misc.loadImage("/Turret3Rapid_lvl2_top.png");
+	static BufferedImage lvl2upgrade = Misc.loadImage("/Turret4Snip_lvl2_main.png");
+	static BufferedImage lvl2upgradeTop = Misc.loadImage("/Turret4Snip_lvl2_top.png");
 //	static BufferedImage lvl2upgradeBase = Misc.loadImage("/Turret3Rapid_lvl2_base.png");
 //
-//	static BufferedImage lvl3upgrade = Misc.loadImage("/Turret3Rapid_lvl3_main.png");
-//	static BufferedImage lvl3upgradeTop = Misc.loadImage("/Turret3Rapid_lvl3_top.png");
+	static BufferedImage lvl3upgrade = Misc.loadImage("/Turret4Snip_lvl3_main.png");
+	static BufferedImage lvl3upgradeTop = Misc.loadImage("/Turret4Snip_lvl3_top.png");
 //	static BufferedImage lvl3upgradeBase = Misc.loadImage("/Turret3Rapid_lvl3_base.png");
 //	
-//	static BufferedImage lvl4upgrade = Misc.loadImage("/Turret3Rapid_lvlMax_main.png");
-//	static BufferedImage lvl4upgradeTop = Misc.loadImage("/Turret3Rapid_lvlMax_top.png");
+	static BufferedImage lvl4upgrade = Misc.loadImage("/Turret4Snip_lvlMax_main.png");
+	static BufferedImage lvl4upgradeTop = Misc.loadImage("/Turret4Snip_lvlMax_top.png");
+	static BufferedImage lvl4upgradeBase = Misc.loadImage("/Turret4Snip_lvlMax_base.png");
 	
 
 	public Turret4Snip(int x, int y, double rotation, int identity) {
@@ -84,10 +85,10 @@ public class Turret4Snip extends Turret {
 			lockedOn = true;
 			if (lockedOn && timeSLS >= firerate) {
 				
-				projectiles.add(new Projectile(targetEnemy.x, targetEnemy.y, 3, 3, 0, 0, damage, numCollisions, 5, null, 5));				
+				projectiles.add(new Projectile(targetEnemy.x, targetEnemy.y, 3, 3, 0, 0, damage, numCollisions, 3, null, 5));				
 				stationaryTargetEnemyx = (int) targetEnemy.x;
 				stationaryTargetEnemyy = (int) targetEnemy.y;
-				lines.add(new Line(x, y, stationaryTargetEnemyx, stationaryTargetEnemyy, 60, 1));
+				lines.add(new Line(x, y, stationaryTargetEnemyx, stationaryTargetEnemyy, 20 + upgradeLvl*20, 0 + upgradeLvl));
 				timeSLS = 0;			
 			}
 			double angleTo = new Point(x, y).angleTo(new Point(targetEnemy.x, targetEnemy.y));
@@ -104,21 +105,21 @@ public class Turret4Snip extends Turret {
 			textureTop = lvl1upgradeTop;
 			textureBase = lvl1upgradeBase;
 		}
-//		if (upgradeLvl == 2) {
-//			texture = lvl2upgrade;
-//			textureTop = lvl2upgradeTop;
+		if (upgradeLvl == 2) {
+			texture = lvl2upgrade;
+			textureTop = lvl2upgradeTop;
 //			textureBase = lvl2upgradeBase;
-//		}
-//		if (upgradeLvl == 3) {
-//			texture = lvl3upgrade;
-//			textureTop = lvl3upgradeTop;
+		}
+		if (upgradeLvl == 3) {
+			texture = lvl3upgrade;
+			textureTop = lvl3upgradeTop;
 //			textureBase = lvl3upgradeBase;
-//		}
-//		if (upgradeLvl == 4) {
-//			texture = lvl4upgrade;
-//			textureTop = lvl4upgradeTop;
-//			textureBase = lvl3upgradeBase;
-//		}
+		}
+		if (upgradeLvl == 4) {
+			texture = lvl4upgrade;
+			textureTop = lvl4upgradeTop;
+			textureBase = lvl4upgradeBase;
+		}
 
 	}
 

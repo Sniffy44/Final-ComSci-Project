@@ -12,10 +12,10 @@ public class Turret1Basic extends Turret {
 
 	static int baseWidth = 70;
 	static int baseHeight = 70;
-	static int basePrice = 10;
+	static int basePrice = 50;
 	static int baseRange = 150;
 	static int baseDamage = 40;
-	static int baseNetWorth = 10;
+	static int baseNetWorth = 50;
 	static int baseNumCollisions = 1;
 	static boolean baseButton1aPressed = false;
 	static boolean baseButton2aPressed = false;
@@ -23,11 +23,11 @@ public class Turret1Basic extends Turret {
 	static boolean baseButton2bPressed = false;
 	static boolean baseButtonSpecialPressed = false;
 
-	static int baseUpg1aPrice = 5;
-	static int baseUpg2aPrice = 5;
-	static int baseUpg1bPrice = 10;
-	static int baseUpg2bPrice = 10;
-	static int baseUpgMasterPrice = 20;
+	static int baseUpg1aPrice = 30;
+	static int baseUpg2aPrice = 30;
+	static int baseUpg1bPrice = 55;
+	static int baseUpg2bPrice = 55;
+	static int baseUpgMasterPrice = 95;
 
 	static boolean baseIsSold = false;
 
@@ -86,7 +86,7 @@ public class Turret1Basic extends Turret {
 		}
 		timeSLS++;
 
-		if (upgradeLvl == 1)
+		if (upgradeLvl == 1) // stuff for graphics of turret as it upgrades			
 			texture = lvl1upgrade;
 		if (upgradeLvl == 2)
 			texture = lvl2upgrade;

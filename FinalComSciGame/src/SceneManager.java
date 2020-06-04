@@ -6,6 +6,7 @@ public class SceneManager {
 	static SCENE_0_MainMenu scene_mainMenu = new SCENE_0_MainMenu(); //menu scene
 	static SCENE_1_LevelSelect scene_levelSelect = new SCENE_1_LevelSelect(); //level select scene
 	static SCENE_2_Track1 scene_track1 = new SCENE_2_Track1(); //level select scene
+	static SCENE_3_DeathScreen scene_deathScreen = new SCENE_3_DeathScreen(); //level select scene
 	
 	
 	public static void update() {
@@ -44,6 +45,7 @@ public class SceneManager {
 		scenes.add(scene_mainMenu);
 		scenes.add(scene_levelSelect);
 		scenes.add(scene_track1);
+		scenes.add(scene_deathScreen);
 		
 	}
 

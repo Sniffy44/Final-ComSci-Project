@@ -14,9 +14,13 @@ public class Line {
 	int identity;
 
 	int age = 0;
-	int a = 190;
+	int a = 120;
+	int a2 = 170;
+	int a3 = 230;
 
-	Color dimBlue = new Color(100, 100, 100, 150);
+	Color dimGray = new Color(100, 100, 100, a);
+	Color dimBlue2 = new Color(0,0,139, a2);
+	Color dimBlue3 = new Color(30,140,255, a3);
 
 	public Line(int x, int y, int x2, int y2, int ageLimit, int identity) {
 		super();
@@ -33,22 +37,40 @@ public class Line {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (identity == 1) { // green balls from basicTurrent
-			g2.setPaint(dimBlue);
+			g2.setPaint(dimGray);		
+			g2.drawLine(x, y, x2, y2);		
+			
+		}
+		if (identity == 2 || identity == 3) { // green balls from basicTurrent
+			g2.setPaint(dimBlue2);
 			g2.setStroke(new BasicStroke(2));
 			g2.drawLine(x, y, x2, y2);
 			g2.setStroke(new BasicStroke(1));
 			
-			// hitbox1.draw(g2);
+		}
+		if (identity == 4) { // green balls from basicTurrent
+			g2.setPaint(dimBlue3);
+			g2.setStroke(new BasicStroke(3));
+			g2.drawLine(x, y, x2, y2);
+			g2.setStroke(new BasicStroke(1));
+			
 		}
 		
 
 	}
 
 	public void update(ArrayList<Enemies> squaros, ArrayList<Turret> turrets, ArrayList<Projectile> projectiles, ArrayList<Line> lines) {
-		a -= 3;
-		dimBlue = new Color(100, 100, 100, a);
+		if(a > 2) a -= 3;
+		if(a2 > 2) a2 -= 3;
+		if(a3 > 2) a3 -= 3;
+		
+		dimGray = new Color(100, 100, 100, a);
+		dimBlue2 = new Color(176,196,222, a2);
+		dimBlue3 = new Color(30,140,255, a3);
 		if(age > ageLimit) {
-			a = 190;
+			a = 120;
+			a2 = 170;
+			a3 = 230;
 			lines.remove(this);
 		}
 
